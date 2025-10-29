@@ -1,0 +1,61 @@
+/* --- Estilos base para todo el sitio --- */
+body {
+    font-family: Arial, sans-serif; /* Una fuente legible para el contenido */
+    margin: 0; /* Elimina el margen por defecto del navegador */
+    padding: 0;
+    background-color: #f4f4f4; /* Un color de fondo suave para las páginas */
+    color: #333; /* Color de texto principal */
+}
+
+/* --- encabezado / Barra de Navegación Principal --- */
+.main-encabezado {
+    background-color: #2c3e50; /* Un color oscuro y elegante */
+    padding: 1rem 2rem;
+    color: white;
+    display: flex;
+    justify-content: space-between; /* Alinea el logo a la izquierda y la nav a la derecha */
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.main-encabezado .logo {
+    font-family: 'Bangers', cursive; /* Reutilizamos la fuente "friki" para el logo */
+    font-size: 2rem;
+    text-decoration: none;
+    color: white;
+}
+
+.main-encabezado nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none; /* Quita los puntos de la lista */
+    display: flex;
+    gap: 20px; /* Espacio entre los enlaces */
+}
+
+.main-encabezado nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.main-encabezado nav a:hover {
+    background-color: #34495e; /* Un fondo sutil al pasar el ratón */
+}
+
+
+/* --- piedpagina / Pie de Página --- */
+.main-piepagina {
+    background-color: #222;
+    color: #aaa;
+    text-align: center;
+    padding: 1.5rem;
+    margin-top: 2rem; /* Empuja el piepagina hacia abajo */
+}
+
+.main-piepagina p {
+    margin: 0;
+}
