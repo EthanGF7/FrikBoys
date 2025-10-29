@@ -1,0 +1,65 @@
+# ============================
+# Node.js / Express .gitignore
+# ============================
+
+# Dependencias
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Entornos
+.env
+.env.local
+.env.*.local
+
+# Build y cobertura
+dist/
+build/
+coverage/
+.cache/
+.next/
+out/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos temporales o de IDEs
+*.swp
+*.swo
+*.tmp
+*.bak
+*.pid
+*.seed
+*.pid.lock
+
+# Configuración de editores
+.vscode/
+.idea/
+*.iml
+
+# Archivos de Docker (si los generas)
+docker-compose.override.yml
+docker-compose.local.yml
+
+# Archivos generados por pruebas
+jest-html-reporters-*
+test-results/
+
+# Archivos de subida temporal
+uploads/
+tmp/
+
+# Archivos de lock alternativos (si solo usas uno)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Archivos de documentación generados
+docs/
