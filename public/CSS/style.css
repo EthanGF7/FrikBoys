@@ -59,3 +59,61 @@ body {
 .main-piepagina p {
     margin: 0;
 }
+
+body {
+  background-color: #090d18; /* azul oscuro uniforme */
+  color: #ffffff;
+  font-family: 'Roboto', sans-serif;
+}
+
+.LogReg-container {
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 2px solid #00ff99; /* verde slime */
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.2); /* efecto humo */
+  border-radius: 12px;
+}
+
+.LogReg-title {
+  margin-bottom: 1rem;
+}
+
+.LogReg-title img {
+  width: 240px;
+  height: auto;
+}
+
+.input-group label {
+  color: #ffffff;
+}
+
+.input-group input {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 1px solid #00ff99;
+}
+
+.input-group input::placeholder {
+  color: #cccccc;
+}
+
+.LogReg-button {
+  background-color: #1f80e0;
+  color: white;
+}
+
+.LogReg-button:hover {
+  background-color: #1668b8;
+}
+
+.LogReg-links {
+  color: #ffffff;
+}
+
+.LogReg-links a {
+  color: #9ec3ff;
+}
+
+.LogReg-links a:hover {
+  text-decoration: underline;
+}

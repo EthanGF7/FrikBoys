@@ -1,0 +1,101 @@
+body {
+  background-color: #090d18; /* azul oscuro uniforme */
+  color: #ffffff;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Contenedor del formulario */
+.LogReg-container {
+  max-width: 700px; /* antes 400px → ahora mucho más ancho */
+  margin: 5vh auto;
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 3px solid #00ff99; /* borde verde lima */
+  box-shadow:
+    0 0 12px #00ff99,       /* resplandor verde */
+    0 0 30px rgba(255, 255, 255, 0.2); /* humo blanco */
+  border-radius: 14px;
+}
+
+/* Logo más grande */
+.LogReg-title {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.LogReg-title img {
+  width: 250px !important;
+  max-width: none !important;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Subtítulo */
+.LogReg-subtitle {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  color: #ffffff;
+}
+
+/* Campos de entrada */
+.input-group {
+  margin-bottom: 1rem;
+}
+.input-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #ffffff;
+}
+.input-group input {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #00ff99;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+.input-group input::placeholder {
+  color: #cccccc;
+}
+
+/* Botón */
+.LogReg-button {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #1f80e0;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.LogReg-button:hover {
+  background-color: #1668b8;
+}
+
+/* Enlaces */
+.LogReg-links {
+  text-align: center;
+  margin-top: 1rem;
+  color: #ffffff;
+}
+.LogReg-links a {
+  color: #9ec3ff;
+  text-decoration: none;
+}
+.LogReg-links a:hover {
+  text-decoration: underline;
+}
+
+.main-piepagina {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 0.85rem;
+  color: #cccccc;
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+}

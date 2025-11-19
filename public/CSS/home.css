@@ -1,0 +1,231 @@
+/* --- Tema oscuro tipo Disney+ --- */
+.home {
+  background: radial-gradient(1200px 600px at 0% 0%, #0f1b2e 0%, #0b1120 35%, #0a0f1e 60%, #090d18 100%);
+  color: #eaeaea;
+}
+
+/* Header fijo */
+.main-encabezado--fixed {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: saturate(180%) blur(8px);
+  background-color: rgba(12, 18, 30, 0.75);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.main-encabezado nav a {
+  opacity: 0.9;
+}
+.main-encabezado nav a:hover {
+  background-color: rgba(255,255,255,0.1);
+}
+
+/* HERO */
+.hero {
+  position: relative;
+  min-height: 52vh;
+  display: grid;
+  align-items: center;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  background-image: url("https://via.placeholder.com/1600x700/0a0f1e/ffffff?text=FrikBoys+Banner");
+  background-size: cover;
+  background-position: center;
+  filter: contrast(105%) brightness(95%) saturate(105%);
+  opacity: 0.9;
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(10, 15, 30, 0.25) 0%, rgba(10, 15, 30, 1) 85%);
+}
+.hero__content {
+  position: relative;
+  z-index: 1;
+  padding: 3rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.hero__title {
+  font-family: 'Bangers', cursive;
+  font-size: clamp(2rem, 3.5vw, 3.5rem);
+  letter-spacing: 1px;
+  margin: 0 0 0.75rem;
+  color: #ffffff;
+}
+.hero__subtitle {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: #cdd7e4;
+  margin-bottom: 1.5rem;
+}
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.25rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease;
+}
+.btn--primary {
+  background-color: #1f80e0;
+  color: white;
+  box-shadow: 0 6px 18px rgba(31,128,224,0.35);
+}
+.btn--primary:hover {
+  background-color: #1668b8;
+  transform: translateY(-1px);
+}
+
+/* BRANDS / TILES */
+.brands {
+  padding: 0 2rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto 1rem;
+}
+.brands__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.brand-tile {
+  position: relative;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  overflow: hidden;
+  height: 120px;
+  background: #111a2a;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06), 0 10px 24px rgba(0,0,0,0.45);
+  transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+  text-decoration: none;
+}
+.brand-tile:hover {
+  transform: translateY(-2px);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.14), 0 18px 32px rgba(0,0,0,0.55);
+  filter: brightness(105%);
+}
+.brand-tile__label {
+  font-family: 'Bangers', cursive;
+  color: #fff;
+  font-size: 1.6rem;
+  letter-spacing: 1px;
+}
+
+/* Fondos temáticos para cada tile (cámbialos por tus imágenes cuando las tengas) */
+.brand-tile--futbol { background-image: url("https://via.placeholder.com/600x300/27ae60/ffffff?text=Futbol"); background-size: cover; background-position: center; }
+.brand-tile--marvel { background-image: url("https://via.placeholder.com/600x300/e74c3c/ffffff?text=Marvel"); background-size: cover; background-position: center; }
+.brand-tile--starwars { background-image: url("https://via.placeholder.com/600x300/2f3640/ffffff?text=Star+Wars"); background-size: cover; background-position: center; }
+
+/* RAIL / CARRUSEL */
+.rail {
+  max-width: 1200px;
+  margin: 0 auto 2rem;
+  padding: 0 2rem;
+}
+.rail__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1rem 0;
+}
+.rail__title {
+  font-size: 1.25rem;
+  color: #e7edf6;
+}
+.rail__controls {
+  display: flex;
+  gap: 0.5rem;
+}
+.rail__btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  cursor: pointer;
+  transition: background-color .18s ease, transform .18s ease, border-color .18s ease;
+}
+.rail__btn:hover {
+  background: rgba(255,255,255,0.12);
+  transform: translateY(-1px);
+  border-color: rgba(255,255,255,0.35);
+}
+.rail__track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(220px, 28%);
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 0.5rem;
+}
+.rail__track::-webkit-scrollbar {
+  height: 8px;
+}
+.rail__track::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.18);
+  border-radius: 8px;
+}
+
+/* Tarjeta de contenido */
+.card {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #121826;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.45);
+  scroll-snap-align: start;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 32px rgba(0,0,0,0.55);
+}
+.card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+.card__meta {
+  padding: 0.75rem 0.75rem 1rem;
+}
+.card__title {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+  color: #ffffff;
+}
+.card__link {
+  font-size: 0.9rem;
+  color: #9ec3ff;
+  text-decoration: none;
+}
+.card__link:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .brands__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 600px) {
+  .brands__grid {
+    grid-template-columns: 1fr;
+  }
+  .hero {
+    min-height: 46vh;
+  }
+}

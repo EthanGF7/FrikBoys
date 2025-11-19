@@ -1,40 +1,141 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página Principal - FrikBoys</title>
-    <!-- Enlace al CSS GENERAL (Esto está perfecto) -->
-    <link rel="stylesheet" href="../CSS/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FrikBoys — Inicio</title>
+  <!-- CSS global existente -->
+  <link rel="stylesheet" href="../CSS/style.css" />
+  <!-- Nueva hoja de estilos para la home -->
+  <link rel="stylesheet" href="../CSS/home.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
 </head>
-<body>
-
-
-    <!-- Contenido principal de tu página aquí -->
-    <main>
-        <h1>Bienvenidos a la tienda</h1>
-    </main>
-<!-- Contenido de Encabezado.html -->
-<header class="main-encabezado">
+<body class="home">
+  <!-- Header fijo tipo Disney+ -->
+  <header class="main-encabezado main-encabezado--fixed">
     <a href="PagPrincipal.html" class="logo">FrikBoys</a>
     <nav>
-        <ul>
-            <li><a href="PagProductos.html">Productos</a></li>
-            <li><a href="PagFutbol.html">Fútbol</a></li>
-            <li><a href="PagMarvel.html">Marvel</a></li>
-            <li><a href="PagStarWars.html">Star Wars</a></li>
-            <li><a href="PagCarrito.html">Carrito</a></li>
-        </ul>
+      <ul>
+        <li><a href="PagProductos.html">Productos</a></li>
+        <li><a href="PagFutbol.html">Fútbol</a></li>
+        <li><a href="PagMarvel.html">Marvel</a></li>
+        <li><a href="PagStarWars.html">Star Wars</a></li>
+        <li><a href="PagCarrito.html">Carrito</a></li>
+      </ul>
     </nav>
-</header>
+  </header>
 
-    <!-- CORRECCIÓN: Añade esta línea para que el script funcione -->
-    <script src="../JS/main.js"></script>
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <!-- Sustituye esta imagen por tu banner cuando lo tengas -->
+      <div class="hero__bg" role="img" aria-label="Banner de FrikBoys"></div>
+      <div class="hero__content">
+        <h1 class="hero__title">Creatividad 3D hecha en casa</h1>
+        <p class="hero__subtitle">Modelos únicos de Marvel, Star Wars y Fútbol</p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="PagProductos.html">Explorar ahora</a>
+        </div>
+      </div>
+    </section>
 
-    <footer class="main-piepagina">
-        <p>&copy; 2025 FrikBoys. Todos los derechos reservados.</p>
-    </footer>
+    <!-- TILES DE TEMAS / MARCAS -->
+    <section class="brands">
+      <ul class="brands__grid">
+        <li>
+          <a class="brand-tile brand-tile--futbol" href="PagFutbol.html">
+            <span class="brand-tile__label">Fútbol</span>
+          </a>
+        </li>
+        <li>
+          <a class="brand-tile brand-tile--marvel" href="PagMarvel.html">
+            <span class="brand-tile__label">Marvel</span>
+          </a>
+        </li>
+        <li>
+          <a class="brand-tile brand-tile--starwars" href="PagStarWars.html">
+            <span class="brand-tile__label">Star Wars</span>
+          </a>
+        </li>
+      </ul>
+    </section>
 
+    <!-- CARRUSEL DESTACADOS -->
+    <section class="rail">
+      <div class="rail__head">
+        <h2 class="rail__title">Destacados</h2>
+        <div class="rail__controls">
+          <button class="rail__btn rail__btn--prev" aria-label="Anterior">‹</button>
+          <button class="rail__btn rail__btn--next" aria-label="Siguiente">›</button>
+        </div>
+      </div>
+      <div class="rail__track">
+        <!-- Sustituye los src por tus imágenes de producto -->
+        <article class="card">
+          <img src="../Models3D/Marvel/preview_corazon.jpg" alt="Corazón de Iron Man" />
+          <div class="card__meta">
+            <h3 class="card__title">Reactor Arc</h3>
+            <a class="card__link" href="PagMarvel.html">Ver detalles</a>
+          </div>
+        </article>
+        <article class="card">
+          <img src="https://via.placeholder.com/800x450/1e90ff/ffffff?text=Pelota+Fútbol" alt="Pelota de Fútbol" />
+          <div class="card__meta">
+            <h3 class="card__title">Pelota 3D</h3>
+            <a class="card__link" href="PagFutbol.html">Ver detalles</a>
+          </div>
+        </article>
+        <article class="card">
+          <img src="https://via.placeholder.com/800x450/2f3640/ffffff?text=Sable+Yoda" alt="Sable de Yoda" />
+          <div class="card__meta">
+            <h3 class="card__title">Sable láser</h3>
+            <a class="card__link" href="PagStarWars.html">Ver detalles</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- CARRUSEL MÁS RECIENTES -->
+    <section class="rail">
+      <div class="rail__head">
+        <h2 class="rail__title">Más recientes</h2>
+        <div class="rail__controls">
+          <button class="rail__btn rail__btn--prev" aria-label="Anterior">‹</button>
+          <button class="rail__btn rail__btn--next" aria-label="Siguiente">›</button>
+        </div>
+      </div>
+      <div class="rail__track">
+        <!-- Más tarjetas de ejemplo -->
+        <article class="card">
+          <img src="https://via.placeholder.com/800x450/e74c3c/ffffff?text=Marvel" alt="Marvel producto" />
+          <div class="card__meta">
+            <h3 class="card__title">Iron Tech</h3>
+            <a class="card__link" href="PagMarvel.html">Ver detalles</a>
+          </div>
+        </article>
+        <article class="card">
+          <img src="https://via.placeholder.com/800x450/27ae60/ffffff?text=Futbol" alt="Futbol producto" />
+          <div class="card__meta">
+            <h3 class="card__title">Balón Pro</h3>
+            <a class="card__link" href="PagFutbol.html">Ver detalles</a>
+          </div>
+        </article>
+        <article class="card">
+          <img src="https://via.placeholder.com/800x450/34495e/ffffff?text=Star+Wars" alt="Star Wars producto" />
+          <div class="card__meta">
+            <h3 class="card__title">Galactic Saber</h3>
+            <a class="card__link" href="PagStarWars.html">Ver detalles</a>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="main-piepagina">
+    <p>&copy; 2025 FrikBoys. Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- JS global -->
+  <script src="../JS/main.js"></script>
 </body>
 </html>
