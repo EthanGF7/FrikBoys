@@ -1,73 +1,115 @@
-// public/JS/threeViewer.js  ← versión SIN módulos (funciona con file://)
-function cargarModelo(containerId, rutaModelo) {
-  const container = document.getElementById(containerId);
-  if (!container) return;
+// Importamos las librerías directamente (igual que en tu archivo de Star Wars)
+import * as THREE from 'https://cdn.skypack.dev/three@0.136.0';
+import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/loaders/GLTFLoader.js';
+import { OrbitControls } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/controls/OrbitControls.js';
 
-  container.innerHTML = "";
+// Variable global para guardar la referencia a la animación y poder detenerla si cerramos el modal
+let animationId = null;
+let renderer = null;
 
-  // Cargar Three.js y complementos directamente en el <head>
-  const scriptThree = document.createElement("script");
-  scriptThree.src = "https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.min.js";
-  scriptThree.onload = () => cargaTodo();
-  document.head.appendChild(scriptThree);
+export function cargarModelo(containerId, rutaModelo) {
+    const container = document.getElementById(containerId);
+    if (!container) {
+        console.error(`El contenedor #${containerId} no existe.`);
+        return;
+    }
 
-  function cargaTodo() {
-    const scriptGLTF = document.createElement("script");
-    scriptGLTF.src = "https://cdn.jsdelivr.net/npm/three@0.168.0/examples/js/loaders/GLTFLoader.min.js";
-    scriptGLTF.onload = () => iniciarVisor();
-    document.head.appendChild(scriptGLTF);
-  }
+    // 1. LIMPIEZA: Si ya había un canvas previo, lo borramos para no tener duplicados
+    if (renderer) {
+        // Cancelar animación anterior
+        if (animationId) cancelAnimationFrame(animationId);
+        // Limpiar el contenedor
+        container.innerHTML = ''; 
+        renderer = null;
+    }
 
-  function iniciarVisor() {
+    // 2. ESCENA BÁSICA
     const scene = new THREE.Scene();
+    // Fondo oscuro suave (puedes poner alpha: true en el renderer si prefieres transparente)
     scene.background = new THREE.Color(0x111111);
 
     const camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 1000);
-    camera.position.set(0, 0, 5);
+    camera.position.z = 5; // Posición inicial, luego se ajustará automáticamente
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     container.appendChild(renderer.domElement);
 
-    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    // 3. LUCES
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+    scene.add(ambientLight);
+
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    directionalLight.position.set(5, 10, 7);
+    scene.add(directionalLight);
+
+    // 4. CONTROLES
+    const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.autoRotate = true;
-    controls.autoRotateSpeed = 1.5;
+    controls.autoRotateSpeed = 2.0;
 
-    const ambient = new THREE.AmbientLight(0xffffff, 0.8);
-    scene.add(ambient);
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1);
-    dirLight.position.set(5, 10, 7);
-    scene.add(dirLight);
+    // 5. CARGAR MODELO
+    const loader = new GLTFLoader();
+    
+    loader.load(
+        rutaModelo,
+        (gltf) => {
+            const model = gltf.scene;
 
-    const loader = new THREE.GLTFLoader();
-    loader.load(rutaModelo, (gltf) => {
-      const model = gltf.scene;
-      scene.add(model);
-      const box = new THREE.Box3().setFromObject(model);
-      const center = box.getCenter(new THREE.Vector3());
-      const size = box.getSize(new THREE.Vector3());
-      const maxDim = Math.max(size.x, size.y, size.z);
-      const scale = 3.5 / maxDim;
-      model.scale.multiplyScalar(scale);
-      model.position.copy(center).multiplyScalar(-scale);
-    });
+            // CENTRADO Y ESCALADO AUTOMÁTICO
+            // Esto asegura que el modelo se vea bien sin importar su tamaño original
+            const box = new THREE.Box3().setFromObject(model);
+            const center = box.getCenter(new THREE.Vector3());
+            const size = box.getSize(new THREE.Vector3());
 
+            // Resetear posición del modelo para que su centro sea (0,0,0)
+            model.position.x += (model.position.x - center.x);
+            model.position.y += (model.position.y - center.y);
+            model.position.z += (model.position.z - center.z);
+
+            // Ajustar la cámara según el tamaño del objeto
+            const maxDim = Math.max(size.x, size.y, size.z);
+            const fov = camera.fov * (Math.PI / 180);
+            let cameraZ = Math.abs(maxDim / 2 * Math.tan(fov * 2));
+            cameraZ *= 2.5; // Multiplicador para alejar un poco la cámara
+            camera.position.z = cameraZ;
+
+            const minZ = box.min.z;
+            const cameraToFarEdge = ( minZ < 0 ) ? -minZ + cameraZ : cameraZ - minZ;
+            camera.far = cameraToFarEdge * 3;
+            camera.updateProjectionMatrix();
+
+            scene.add(model);
+            console.log(`Modelo cargado: ${rutaModelo}`);
+        },
+        (xhr) => {
+            // Progreso (opcional)
+            // console.log((xhr.loaded / xhr.total * 100) + '% cargado');
+        },
+        (error) => {
+            console.error('Error cargando el modelo:', error);
+            container.innerHTML = '<p style="color:white; text-align:center;">Error al cargar modelo 3D</p>';
+        }
+    );
+
+    // 6. ANIMACIÓN
     function animate() {
-      requestAnimationFrame(animate);
-      controls.update();
-      renderer.render(scene, camera);
+        animationId = requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera);
     }
     animate();
 
-    window.addEventListener("resize", () => {
-      camera.aspect = container.clientWidth / container.clientHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(container.clientWidth, container.clientHeight);
+    // 7. RESPONSIVE
+    // Usamos ResizeObserver para detectar cambios en el contenedor (ej. abrir modal)
+    const resizeObserver = new ResizeObserver(() => {
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+        renderer.setSize(width, height);
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
     });
-  }
+    resizeObserver.observe(container);
 }
-
-// Lo dejamos disponible globalmente
-window.cargarModelo = cargarModelo;
