@@ -1,11 +1,9 @@
-// public/JS/PagMarvel.js  ← VERSIÓN COMPLETA Y AUTÓNOMA (funciona con doble clic)
-const marvelProducts = [
+const productos = [
   {
     id: "corazon-ironman",
     nombre: "Reactor Arc – Corazón de Iron Man",
     precio: 84.99,
-    imagen: "public/Models3D/Marvel/preview_corazon.jpg",
-    modelo: "../Models3D/Marvel/corazonIronman.glb",
+    imagen: "../Models3d/Marvel/preview_corazon.jpg",
     descripcion: "Réplica exacta del reactor de arco que mantiene con vida a Tony Stark. Impreso en 3D con detalle extremo y acabado metálico brillante."
   },
   
@@ -21,7 +19,7 @@ if (!gallery) {
   main.appendChild(gallery);
 }
 
-marvelProducts.forEach(p => {
+productos.forEach(p => {
   const card = `
     <div class="product-card" data-id="${p.id}">
       <img src="${p.imagen}" alt="${p.nombre}" loading="lazy">
@@ -150,7 +148,7 @@ gallery.addEventListener('click', e => {
   const card = e.target.closest('.product-card');
   if (!card) return;
   const id = card.dataset.id;
-  const prod = marvelProducts.find(p => p.id === id);
+  const prod = productos.find(p => p.id === id);
   if (!prod) return;
 
   document.getElementById('modal-nombre').textContent = prod.nombre;
