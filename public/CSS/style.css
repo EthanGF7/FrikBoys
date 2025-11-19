@@ -61,9 +61,8 @@ body {
 }
 
 body {
-  background-color: #090d18; /* azul oscuro uniforme */
+  background: radial-gradient(circle at top, #0f1b2e, #090d18);
   color: #ffffff;
-  font-family: 'Roboto', sans-serif;
 }
 
 .LogReg-container {
