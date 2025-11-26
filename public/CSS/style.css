@@ -5,6 +5,7 @@ body {
     padding: 0;
     background-color: #f4f4f4; /* Un color de fondo suave para las páginas */
     color: #333; /* Color de texto principal */
+    padding-top: 80px; /* Espacio para el header fixed */
 }
 
 /* --- encabezado / Barra de Navegación Principal --- */
@@ -19,6 +20,11 @@ body {
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     height: 80px;
     box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
 }
 
 .main-encabezado .logo {
