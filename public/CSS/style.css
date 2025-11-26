@@ -9,7 +9,8 @@ body {
 
 /* --- encabezado / Barra de Navegación Principal --- */
 .main-encabezado {
-    background: radial-gradient(1200px 600px at 0% 0%, #0f1b2e 0%, #0b1120 35%, #0a0f1e 60%, #090d18 100%);
+    background-color: rgba(12, 18, 30, 0.75);
+    backdrop-filter: saturate(180%) blur(8px);
     padding: 1rem 2rem;
     color: white;
     display: flex;
