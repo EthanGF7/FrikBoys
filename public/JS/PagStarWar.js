@@ -1,74 +1,97 @@
-// MODIFICADO: Importamos Three.js y sus módulos desde un CDN (Skypack)
-import * as THREE from 'https://cdn.skypack.dev/three@0.136.0';
-import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/loaders/GLTFLoader.js';
-import { OrbitControls } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/controls/OrbitControls.js';
+// Importamos la lista de productos y la función del visor
+import { productos } from './Productos.js';
+import { cargarModelo } from './threeViewer.js';
 
-// --- BÚSQUEDA DE ELEMENTOS DEL DOM ---
+// ==================== GALERÍA ====================
+const gallery = document.getElementById('gallery');
 
-const canvasContainer = document.querySelector('#canvas-container');
-const canvas = document.querySelector('#modelo3d-canvas');
-
-// Si no encuentra el canvas, detiene la ejecución para no dar errores
-if (!canvasContainer || !canvas) {
-    console.error('No se encontraron los elementos #canvas-container o #modelo3d-canvas. Asegúrate de que están en tu HTML.');
-} else {
-    // --- CONFIGURACIÓN DE LA ESCENA ---
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, canvasContainer.clientWidth / canvasContainer.clientHeight, 0.1, 1000);
-    camera.position.z = 4;
-
-    const renderer = new THREE.WebGLRenderer({
-      canvas: canvas,
-      antialias: true,
-      alpha: true
+// Renderizar las tarjetas
+if (gallery) {
+    productos.forEach(p => {
+        // Solo mostramos productos si la categoría coincide o si quieres mostrar todos
+        // Aquí asumo que muestras todo lo que hay en productos.js
+        const card = `
+            <div class="product-card" data-id="${p.id}">
+                <img src="${p.imagen}" alt="${p.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/300'">
+                <h3>${p.nombre}</h3>
+                <p class="precio">${p.precio.toFixed(2)} €</p>
+                <button class="btn-ver">Ver modelo 3D</button>
+            </div>
+        `;
+        gallery.insertAdjacentHTML('beforeend', card);
     });
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
-
-    // --- CONTROLES E ILUMINACIÓN ---
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.autoRotate = true;
-    controls.autoRotateSpeed = 2.5;
-
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-    scene.add(ambientLight);
-
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
-    directionalLight.position.set(5, 5, 5);
-    scene.add(directionalLight);
-
-    // --- CARGA DEL MODELO 3D ---
-    const loader = new GLTFLoader();
-    const modelPath = '../Models3d/StarWars/espadalaser_yoda.glb';
-
-    loader.load(
-      modelPath,
-      (gltf) => {
-        const model = gltf.scene;
-        new THREE.Box3().setFromObject(model).getCenter(model.position).multiplyScalar(-1);
-        scene.add(model);
-        console.log("Modelo cargado con éxito!");
-      },
-      undefined,
-      (error) => {
-        console.error('Error al cargar el modelo 3D. Verifica que la ruta es correcta:', modelPath, error);
-      }
-    );
-
-    // --- ANIMACIÓN Y RESPONSIVIDAD ---
-    function animate() {
-      requestAnimationFrame(animate);
-      controls.update();
-      renderer.render(scene, camera);
-    }
-
-    new ResizeObserver(() => {
-        const { clientWidth, clientHeight } = canvasContainer;
-        camera.aspect = clientWidth / clientHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(clientWidth, clientHeight);
-    }).observe(canvasContainer);
-
-    animate();
 }
+
+// ==================== MODAL ====================
+// Crear el HTML del modal si no existe (o puedes tenerlo fijo en el HTML)
+if (!document.getElementById('modal')) {
+  document.body.insertAdjacentHTML('beforeend', `
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <span class="close">×</span>
+        <div class="modal-grid">
+          <!-- Contenedor para el 3D -->
+          <div id="visor3d" class="visor3d"></div> 
+          <div class="info">
+            <h2 id="modal-nombre"></h2>
+            <p id="modal-precio" class="precio"></p>
+            <p id="modal-desc"></p>
+            <button id="btn-carrito" class="btn-carrito">Añadir al carrito</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+const modal = document.getElementById('modal');
+const closeModal = document.querySelector('.close');
+
+// ==================== EVENTOS ====================
+
+// Abrir Modal al hacer click en una tarjeta
+if (gallery) {
+    gallery.addEventListener('click', e => {
+        // Detectar si el click fue dentro de una tarjeta
+        const card = e.target.closest('.product-card');
+        if (!card) return;
+
+        const id = card.dataset.id;
+        const prod = productos.find(p => p.id === id);
+
+        if (prod) {
+            // Llenar datos
+            document.getElementById('modal-nombre').textContent = prod.nombre;
+            document.getElementById('modal-precio').textContent = prod.precio.toFixed(2) + ' €';
+            document.getElementById('modal-desc').textContent = prod.descripcion;
+            
+            // Mostrar Modal
+            modal.style.display = 'block';
+
+            // INICIAR EL VISOR 3D CENTRALIZADO
+            // Le pasamos el ID del div y la ruta del modelo
+            cargarModelo('visor3d', prod.modelo);
+        }
+    });
+}
+
+// Cerrar Modal
+closeModal.addEventListener('click', () => {
+    modal.style.display = 'none';
+    // Opcional: Podrías limpiar el contenedor 3D aquí si quisieras
+    document.getElementById('visor3d').innerHTML = '';
+});
+
+window.addEventListener('click', e => {
+    if (e.target === modal) {
+        modal.style.display = 'none';
+        document.getElementById('visor3d').innerHTML = '';
+    }
+});
+
+// Botón Carrito
+document.getElementById('btn-carrito').addEventListener('click', () => {
+    const nombre = document.getElementById('modal-nombre').textContent;
+    alert(`${nombre} añadido al carrito.`);
+    modal.style.display = 'none';
+});
