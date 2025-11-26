@@ -6,6 +6,9 @@ import { OrbitControls } from 'https://cdn.skypack.dev/three@0.136.0/examples/js
 let animationId = null;
 let renderer = null;
 
+// Giro automático
+const SPEED_NORMAL = 4.0;  
+
 export function cargarModelo(containerId, rutaModelo) {
     const container = document.getElementById(containerId);
     if (!container) {
@@ -13,18 +16,51 @@ export function cargarModelo(containerId, rutaModelo) {
         return;
     }
 
-    //Limpieza
+    // Limpieza
     if (renderer) {
         if (animationId) cancelAnimationFrame(animationId);
-        container.innerHTML = ''; 
         renderer = null;
     }
+    container.innerHTML = ''; 
+    container.style.position = 'relative';
 
-    //Escena
-    const scene = new THREE.Scene();
+    // --- INYECCIÓN DE BOTONES ---
     
-    // Color de fondo gris oscuro
-    scene.background = new THREE.Color(0x404040); 
+    // 1. Flecha Izquierda
+    const btnLeft = document.createElement('button');
+    btnLeft.className = 'control-btn btn-left';
+    btnLeft.title = "Girar Izquierda";
+    btnLeft.innerHTML = `
+        <svg class="icon-arrow" viewBox="0 0 24 24">
+            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+        </svg>`; 
+
+    // 2. Flecha Derecha
+    const btnRight = document.createElement('button');
+    btnRight.className = 'control-btn btn-right';
+    btnRight.title = "Girar Derecha";
+    btnRight.innerHTML = `
+        <svg class="icon-arrow" viewBox="0 0 24 24">
+            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+        </svg>`; 
+
+    // 3. Botón Vertical (Gira hacia arriba dando la vuelta)
+    const btnVertical = document.createElement('button');
+    btnVertical.className = 'control-btn btn-bottom-right';
+    btnVertical.title = "Girar Verticalmente";
+    btnVertical.innerHTML = `
+        <svg class="icon-arrow" viewBox="0 0 24 24">
+            <path d="M7 11h2v2H7v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm6-7h-4v4h4V4zm0 6h-4v4h4v-4zm0 6h-4v4h4v-4zM5 11H1v2h4v-2zm0 0v-6H1v6h4z" fill="none"/>
+            <path d="M12 5.83L15.17 9l1.41-1.41L12 3 7.41 7.59 8.83 9 12 5.83zm0 12.34L8.83 15l-1.41 1.41L12 21l4.59-4.59L15.17 15 12 18.17z"/>
+        </svg>`;
+
+    container.appendChild(btnLeft);
+    container.appendChild(btnRight);
+    container.appendChild(btnVertical);
+
+    // --- ESCENA ---
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x404545); 
 
     const camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 1000);
     camera.position.z = 5;
@@ -32,54 +68,99 @@ export function cargarModelo(containerId, rutaModelo) {
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
-
     renderer.outputEncoding = THREE.sRGBEncoding; 
     
     container.appendChild(renderer.domElement);
 
-    // Luz ambiental suave 
+    // Luces
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
     scene.add(ambientLight);
 
-    // Luz Principal 
     const mainLight = new THREE.DirectionalLight(0xffffff, 1.0);
     mainLight.position.set(5, 10, 7);
     scene.add(mainLight);
 
-    // Luz de relleno 
     const fillLight = new THREE.DirectionalLight(0xffffff, 0.5);
     fillLight.position.set(-5, 5, -5);
     scene.add(fillLight);
 
     // --- CONTROLES ---
     const controls = new OrbitControls(camera, renderer.domElement);
-    
-    // Suavizado del movimiento (inercia)
     controls.enableDamping = true;
-    
-    // Rotación automática (si no tocas nada)
     controls.autoRotate = true;
-    controls.autoRotateSpeed = 2.0;
-
-    // Esto impide mover el modelo fuera del centro 
-    controls.enablePan = false;
-
-    //Velocidad de giro al arrastrar con el ratón
+    controls.autoRotateSpeed = SPEED_NORMAL; 
+    controls.enablePan = false; 
     controls.rotateSpeed = 0.4; 
+    controls.minDistance = 35; 
+    controls.maxDistance = 50; 
 
-    //Limitar el zoom 
-    controls.minDistance = 35;
-    controls.maxDistance = 50;
-
-    //Cargar modelo
-    const loader = new GLTFLoader();
+    // --- LÓGICA DE MOVIMIENTO ---
     
+    // 1. Rotación Horizontal
+    const rotateHorizontal = (direction) => {
+        const step = Math.PI / 4; 
+        const angleOffset = (direction === 'left') ? -step : step;
+
+        const x = camera.position.x;
+        const z = camera.position.z;
+
+        const cos = Math.cos(angleOffset);
+        const sin = Math.sin(angleOffset);
+
+        camera.position.x = x * cos - z * sin;
+        camera.position.z = x * sin + z * cos;
+        
+        camera.lookAt(0, 0, 0);
+    };
+
+    // 2. Rotación Vertical (BUCLE COMPLETO)
+    const rotateVertical = () => {
+        // Usamos coordenadas esféricas
+        const spherical = new THREE.Spherical();
+        spherical.setFromVector3(camera.position);
+
+        // Subimos la cámara (restamos ángulo phi)
+        spherical.phi -= Math.PI / 4; 
+
+        // --- MAGIA AQUÍ ---
+        // Si phi es menor que 0, significa que hemos cruzado el Polo Norte (arriba del todo).
+        // Para dar la vuelta, invertimos el ángulo positivo y giramos 180 grados horizontalmente (theta).
+        if (spherical.phi < 0) {
+            spherical.phi = Math.abs(spherical.phi); // Lo hacemos positivo
+            spherical.theta += Math.PI; // Nos vamos al "otro lado" de la esfera (la espalda)
+        }
+
+        // Convertimos de vuelta a posición 3D
+        const newPos = new THREE.Vector3().setFromSpherical(spherical);
+        camera.position.copy(newPos);
+        
+        // Miramos al centro para que la cámara no pierda el objetivo
+        camera.lookAt(0, 0, 0);
+    };
+
+    // --- EVENTOS ---
+
+    btnLeft.addEventListener('click', (e) => {
+        e.preventDefault();
+        rotateHorizontal('left');
+    });
+
+    btnRight.addEventListener('click', (e) => {
+        e.preventDefault();
+        rotateHorizontal('right');
+    });
+
+    btnVertical.addEventListener('click', (e) => {
+        e.preventDefault();
+        rotateVertical();
+    });
+
+    // --- CARGA DEL MODELO ---
+    const loader = new GLTFLoader();
     loader.load(
         rutaModelo,
         (gltf) => {
             const model = gltf.scene;
-
-            // Centrado y escalado del modelo automaticamente
             const box = new THREE.Box3().setFromObject(model);
             const center = box.getCenter(new THREE.Vector3());
             const size = box.getSize(new THREE.Vector3());
@@ -103,12 +184,11 @@ export function cargarModelo(containerId, rutaModelo) {
         },
         undefined,
         (error) => {
-            console.error('Error cargando el modelo:', error);
-            container.innerHTML = '<p style="color:white; text-align:center; padding-top:20px;">Error al cargar modelo 3D</p>';
+            console.error('Error:', error);
+            container.innerHTML = '<p style="color:white; text-align:center; padding-top:20px;">Error al cargar modelo</p>';
         }
     );
 
-    //Animacion
     function animate() {
         animationId = requestAnimationFrame(animate);
         controls.update();
@@ -116,7 +196,6 @@ export function cargarModelo(containerId, rutaModelo) {
     }
     animate();
 
-    //Responsive
     const resizeObserver = new ResizeObserver(() => {
         if (!container) return;
         const width = container.clientWidth;
