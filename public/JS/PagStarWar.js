@@ -7,9 +7,8 @@ const gallery = document.getElementById('gallery');
 
 // Renderizar las tarjetas
 if (gallery) {
-    productos.forEach(p => {
-        // Solo mostramos productos si la categoría coincide o si quieres mostrar todos
-        // Aquí asumo que muestras todo lo que hay en productos.js
+    productos.filter(p => p.categoria === 'starwars').forEach(p => {
+        // Solo mostramos productos de Star Wars
         const card = `
             <div class="product-card" data-id="${p.id}">
                 <img src="${p.imagen}" alt="${p.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/300'">

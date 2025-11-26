@@ -7,8 +7,8 @@ const gallery = document.getElementById('gallery');
 
 // Renderizar las tarjetas
 if (gallery) {
-    productos.filter(p => p.categoria === 'marvel').forEach(p => {
-        // Solo mostramos productos de Marvel
+    productos.filter(p => p.categoria === 'futbol').forEach(p => {
+        // Solo mostramos productos de Fútbol
         const card = `
             <div class="product-card" data-id="${p.id}">
                 <img src="${p.imagen}" alt="${p.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/300'">
