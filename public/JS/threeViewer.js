@@ -1,4 +1,4 @@
-// public/JS/threeViewer.js
+// public/JS/ThreeViewr.js
 import * as THREE from 'https://cdn.skypack.dev/three@0.136.0';
 import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/controls/OrbitControls.js';
@@ -6,17 +6,12 @@ import { OrbitControls } from 'https://cdn.skypack.dev/three@0.136.0/examples/js
 let animationId = null;
 let renderer = null;
 
-// Giro automático (Negativo para ir de derecha a izquierda)
 const SPEED_NORMAL = -2.0;  
 
 export function cargarModelo(containerId, rutaModelo) {
     const container = document.getElementById(containerId);
-    if (!container) {
-        console.error(`El contenedor #${containerId} no existe.`);
-        return;
-    }
+    if (!container) return;
 
-    // Limpieza
     if (renderer) {
         if (animationId) cancelAnimationFrame(animationId);
         renderer = null;
@@ -24,94 +19,103 @@ export function cargarModelo(containerId, rutaModelo) {
     container.innerHTML = ''; 
     container.style.position = 'relative';
 
-    // --- INYECCIÓN DE BOTONES ---
-    
-    // 1. Flecha Izquierda
+    // --- BOTONES ---
     const btnLeft = document.createElement('button');
     btnLeft.className = 'control-btn btn-left';
-    btnLeft.title = "Girar Izquierda";
-    btnLeft.innerHTML = `
-        <svg class="icon-arrow" viewBox="0 0 24 24">
-            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
-        </svg>`; 
+    btnLeft.innerHTML = `<svg class="icon-arrow" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>`; 
 
-    // 2. Flecha Derecha
     const btnRight = document.createElement('button');
     btnRight.className = 'control-btn btn-right';
-    btnRight.title = "Girar Derecha";
-    btnRight.innerHTML = `
-        <svg class="icon-arrow" viewBox="0 0 24 24">
-            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
-        </svg>`; 
+    btnRight.innerHTML = `<svg class="icon-arrow" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>`; 
+
+    const btnZoom = document.createElement('button');
+    btnZoom.className = 'control-btn btn-zoom';
+    btnZoom.title = "Modo Inspección (Zoom)";
+    btnZoom.innerHTML = `<svg class="icon-zoom" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>`;
 
     container.appendChild(btnLeft);
     container.appendChild(btnRight);
+    container.appendChild(btnZoom);
 
     // --- ESCENA ---
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x404545); 
 
     const camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 1000);
-    camera.position.z = 5;
-
+    
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.outputEncoding = THREE.sRGBEncoding; 
-    
     container.appendChild(renderer.domElement);
 
-    // Luces
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
     scene.add(ambientLight);
-
     const mainLight = new THREE.DirectionalLight(0xffffff, 1.0);
     mainLight.position.set(5, 10, 7);
     scene.add(mainLight);
-
     const fillLight = new THREE.DirectionalLight(0xffffff, 0.5);
     fillLight.position.set(-5, 5, -5);
     scene.add(fillLight);
 
     // --- CONTROLES ---
     const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
+    controls.enableDamping = true; 
+    controls.dampingFactor = 0.05;
     controls.autoRotate = true;
     controls.autoRotateSpeed = SPEED_NORMAL; 
     controls.enablePan = false; 
-    controls.rotateSpeed = 0.4; 
-    controls.minDistance = 35; 
-    controls.maxDistance = 50; 
 
-    // --- LÓGICA DE MOVIMIENTO ---
+    // Variables de Límites (Se calcularán al cargar)
+    // NORMAL: Rango muy corto
+    let limitNormalMin = 0; 
+    let limitNormalMax = 0;
     
-    // Rotación Horizontal
-    const rotateHorizontal = (direction) => {
-        const step = Math.PI / 4; 
-        const angleOffset = (direction === 'left') ? -step : step;
+    // LUPA: Rango enorme 
+    let limitLupaMin = 0;   
+    let limitLupaMax = 0;
 
+    // --- MOVIMIENTO MANUAL ---
+    const rotateHorizontal = (direction) => {
+        const step = Math.PI / 6; 
+        const angleOffset = (direction === 'left') ? -step : step;
         const x = camera.position.x;
         const z = camera.position.z;
-
         const cos = Math.cos(angleOffset);
         const sin = Math.sin(angleOffset);
-
         camera.position.x = x * cos - z * sin;
         camera.position.z = x * sin + z * cos;
-        
         camera.lookAt(0, 0, 0);
     };
 
-    // --- EVENTOS ---
+    btnLeft.addEventListener('click', (e) => { e.preventDefault(); rotateHorizontal('left'); });
+    btnRight.addEventListener('click', (e) => { e.preventDefault(); rotateHorizontal('right'); });
 
-    btnLeft.addEventListener('click', (e) => {
-        e.preventDefault();
-        rotateHorizontal('left');
-    });
+    // --- LOGICA DE LA LUPA ---
+    let isZoomMode = false;
 
-    btnRight.addEventListener('click', (e) => {
+    btnZoom.addEventListener('click', (e) => {
         e.preventDefault();
-        rotateHorizontal('right');
+        isZoomMode = !isZoomMode;
+
+        if (isZoomMode) {
+            // --- MODO LUPA ACTIVADO ---
+            btnZoom.classList.add('active');
+            controls.autoRotate = false;
+            
+            // Aplicamos los límites "GRANDES"
+            controls.minDistance = limitLupaMin; 
+            controls.maxDistance = limitLupaMax;
+
+        } else {
+            // --- MODO LUPA DESACTIVADO ---
+            btnZoom.classList.remove('active');
+            controls.autoRotate = true;
+            
+            // Aplicamos los límites 
+            controls.minDistance = limitNormalMin;
+            controls.maxDistance = limitNormalMax;
+        }
     });
 
     // --- CARGA DEL MODELO ---
@@ -120,32 +124,49 @@ export function cargarModelo(containerId, rutaModelo) {
         rutaModelo,
         (gltf) => {
             const model = gltf.scene;
+            
+            //Centrar
             const box = new THREE.Box3().setFromObject(model);
             const center = box.getCenter(new THREE.Vector3());
             const size = box.getSize(new THREE.Vector3());
-
+            
             model.position.x += (model.position.x - center.x);
             model.position.y += (model.position.y - center.y);
             model.position.z += (model.position.z - center.z);
+            scene.add(model);
 
+            //Cálculos Iniciales
             const maxDim = Math.max(size.x, size.y, size.z);
             const fov = camera.fov * (Math.PI / 180);
-            let cameraZ = Math.abs(maxDim / 2 * Math.tan(fov * 2));
-            cameraZ *= 2.0; 
-            camera.position.z = cameraZ;
+            
+            // Distancia Base: Donde se ve el objeto entero y bonito
+            let cameraZ = Math.abs(maxDim / (2 * Math.tan(fov / 2)));
+            cameraZ *= 1.1; // Margen del 10%
 
-            const minZ = box.min.z;
-            const cameraToFarEdge = ( minZ < 0 ) ? -minZ + cameraZ : cameraZ - minZ;
-            camera.far = cameraToFarEdge * 3;
-            camera.updateProjectionMatrix();
+            // --- DEFINICIÓN DE LÍMITES DRÁSTICOS ---
 
-            scene.add(model);
+            // MODO NORMAL
+            // El usuario apenas puede moverse de la posición inicial.
+            limitNormalMin = cameraZ * 0.8;  // Solo puede acercarse un 20%
+            limitNormalMax = cameraZ * 1.5;  // Solo puede alejarse un 50%
+
+            // MODO LUPA 
+            // Puede tocar el modelo y puede hacerlo diminuto.
+            limitLupaMin = maxDim * 0.2;     // Zoom MUY potente (para ver detalles)
+            limitLupaMax = cameraZ * 2.5;    // Puede alejarse mucho más si quiere
+
+            // Posición Inicial
+            camera.position.set(0, 0, cameraZ);
+            camera.lookAt(0, 0, 0);
+
+            // Aplicamos configuración NORMAL al inicio
+            controls.minDistance = limitNormalMin;
+            controls.maxDistance = limitNormalMax;
+            
+            controls.update();
         },
         undefined,
-        (error) => {
-            console.error('Error:', error);
-            container.innerHTML = '<p style="color:white; text-align:center; padding-top:20px;">Error al cargar modelo</p>';
-        }
+        (error) => { console.error(error); }
     );
 
     function animate() {

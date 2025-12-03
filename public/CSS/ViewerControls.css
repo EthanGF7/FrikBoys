@@ -49,6 +49,29 @@
     pointer-events: none;
 }
 
+.btn-zoom {
+    top: 20px;
+    right: 20px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%; /* Redondo */
+    transform: none; /* Quitamos el centrado vertical de los otros botones */
+    background-color: rgba(0, 0, 0, 0.5); /* Un poco más oscuro */
+}
+
+.btn-zoom.active {
+    background-color: #2ecc71; /* Verde cuando está activado */
+    border-color: #27ae60;
+}
+
+.icon-zoom {
+    width: 20px;
+    height: 20px;
+    fill: white;
+    pointer-events: none;
+}
+
+
 @media (max-width: 400px) {
     .control-btn {
         width: 30px;
