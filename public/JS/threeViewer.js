@@ -118,14 +118,14 @@ export function cargarModelo(containerId, rutaModelo) {
         }
     });
 
-    // --- CARGA DEL MODELO ---
+// --- CARGA DEL MODELO ---
     const loader = new GLTFLoader();
     loader.load(
         rutaModelo,
         (gltf) => {
             const model = gltf.scene;
             
-            //Centrar
+            //Centrar y Calcular Bounding Box
             const box = new THREE.Box3().setFromObject(model);
             const center = box.getCenter(new THREE.Vector3());
             const size = box.getSize(new THREE.Vector3());
@@ -135,31 +135,46 @@ export function cargarModelo(containerId, rutaModelo) {
             model.position.z += (model.position.z - center.z);
             scene.add(model);
 
-            //Cálculos Iniciales
+            //Análisis de Geometría
             const maxDim = Math.max(size.x, size.y, size.z);
+            const minDim = Math.min(size.x, size.y, size.z);
             const fov = camera.fov * (Math.PI / 180);
             
-            // Distancia Base: Donde se ve el objeto entero y bonito
-            let cameraZ = Math.abs(maxDim / (2 * Math.tan(fov / 2)));
-            cameraZ *= 1.1; // Margen del 10%
+            // Calculamos la proporción
+            // Si el lado largo es 3 veces mayor que el corto, es alargado.
+            const aspectRatio = maxDim / minDim;
 
-            // --- DEFINICIÓN DE LÍMITES DRÁSTICOS ---
+            // --- CÁLCULO CÁMARA INICIAL ---
+            let cameraZ = Math.abs(maxDim / (2 * Math.tan(fov / 2)));
+            cameraZ *= 1.6; // Distancia inicial cómoda con aire (como pediste antes)
+
+            // --- DEFINICIÓN DE LÍMITES INTELIGENTES ---
 
             // MODO NORMAL
-            // El usuario apenas puede moverse de la posición inicial.
-            limitNormalMin = cameraZ * 0.8;  // Solo puede acercarse un 20%
-            limitNormalMax = cameraZ * 1.5;  // Solo puede alejarse un 50%
+            limitNormalMin = cameraZ * 0.5;  
+            limitNormalMax = cameraZ * 1.5;  
 
             // MODO LUPA 
-            // Puede tocar el modelo y puede hacerlo diminuto.
-            limitLupaMin = maxDim * 0.2;     // Zoom MUY potente (para ver detalles)
-            limitLupaMax = cameraZ * 2.5;    // Puede alejarse mucho más si quiere
+            if (aspectRatio > 3) {
+                // CASO ESPADA (Objeto fino y largo)
+                // Podemos acercarnos mucho relativo al largo, porque es fino y no chocaremos.
+                limitLupaMin = maxDim * 0.2; 
+            } else {
+                // CASO PELOTA (Objeto voluminoso)
+                // El radio del objeto es aprox (maxDim / 2), es decir 0.5.
+                // Si ponemos menos de 0.5, entramos dentro.
+                // Ponemos 0.65 para quedarnos justo en la superficie sin atravesarla.
+                limitLupaMin = maxDim * 0.65; 
+            }
+
+            // Límite lejano Lupa
+            limitLupaMax = cameraZ * 3.0;
 
             // Posición Inicial
             camera.position.set(0, 0, cameraZ);
             camera.lookAt(0, 0, 0);
 
-            // Aplicamos configuración NORMAL al inicio
+            // Aplicar configuración inicial
             controls.minDistance = limitNormalMin;
             controls.maxDistance = limitNormalMax;
             
