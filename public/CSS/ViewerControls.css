@@ -4,6 +4,11 @@
     position: relative; 
 }
 
+:root {
+    --zoom-active-bg: #2ecc71; /* Verde cuando está activado */
+    --zoom-active-border: #27ae60;
+}
+
 .control-btn {
     position: absolute;
     top: 50%;
@@ -30,7 +35,7 @@
 }
 
 .control-btn:active {
-    background-color: rgba(231, 76, 60, 0.8); 
+    background-color: var(--zoom-active-bg); 
     transform: translateY(-50%) scale(0.95);
 }
 
@@ -60,13 +65,42 @@
 }
 
 .btn-zoom.active {
-    background-color: #2ecc71; /* Verde cuando está activado */
-    border-color: #27ae60;
+    background-color: var(--zoom-active-bg); /* Verde cuando está activado */
+    border-color: var(--zoom-active-border);
 }
 
 .icon-zoom {
     width: 20px;
     height: 20px;
+    fill: white;
+    pointer-events: none;
+}
+
+.btn-hand {
+    top: 75px; /* 20px (top lupa) + 45px (alto lupa) + 10px (margen) */
+    right: 20px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    transform: none;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.btn-hand.active {
+    background-color: var(--zoom-active-bg); /* Usar mismo color que lupa activa */
+    border-color: var(--zoom-active-border);
+}
+
+/* Aplicar los mismos colores de 'zoom active' a las flechas izquierda/derecha cuando estén activas */
+.btn-left.active,
+.btn-right.active {
+    background-color: var(--zoom-active-bg);
+    border-color: var(--zoom-active-border);
+}
+
+.icon-hand {
+    width: 22px;
+    height: 22px;
     fill: white;
     pointer-events: none;
 }
