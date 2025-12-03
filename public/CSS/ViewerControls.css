@@ -55,3 +55,66 @@
         height: 50px;
     }
 }
+
+/* =========================================
+   RESPONSIVE DESIGN (Controles Visor 3D)
+   Añadir al final de ViewerControls.css
+   ========================================= */
+
+/* --- TABLETS Y MÓVILES (max-width: 768px) --- */
+@media screen and (max-width: 768px) {
+    .control-btn {
+        width: 35px; /* Un poco más estrechos para no tapar el modelo */
+        height: 55px;
+        background-color: rgba(0, 0, 0, 0.3); /* Fondo más oscuro para verlos mejor sin hover */
+        border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Quitamos el efecto hover en pantallas táctiles para que no se queden "pegados" */
+    .control-btn:hover {
+        background-color: rgba(0, 0, 0, 0.3); 
+        box-shadow: none;
+    }
+
+    /* Efecto al pulsar con el dedo */
+    .control-btn:active {
+        background-color: #e74c3c; /* Rojo intenso al tocar */
+        transform: translateY(-50%) scale(0.9);
+    }
+}
+
+/* --- MÓVILES PEQUEÑOS (max-width: 480px) --- */
+@media screen and (max-width: 480px) {
+    .control-btn {
+        width: 32px;
+        height: 48px;
+        /* Pegarlos más al borde para dejar espacio central libre para rotar el 3D */
+    }
+
+    .btn-left {
+        left: 5px; 
+    }
+
+    .btn-right {
+        right: 5px;
+    }
+
+    .icon-arrow {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* --- MÓVILES EN HORIZONTAL (Landscape) --- */
+/* Importante: En horizontal la altura es poca, los botones no deben ser gigantes */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+    .control-btn {
+        height: 40px; /* Botones más bajitos */
+        width: 30px;
+    }
+    
+    .icon-arrow {
+        width: 18px;
+        height: 18px;
+    }
+}

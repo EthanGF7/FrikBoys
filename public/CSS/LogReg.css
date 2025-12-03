@@ -90,3 +90,65 @@ body {
 .LogReg-links a:hover {
     text-decoration: underline;
 }
+
+/* =========================================
+   RESPONSIVE DESIGN (Media Queries)
+   Añadir al final del archivo CSS
+   ========================================= */
+
+/* Ajustes para Tablets y Móviles (menos de 768px) */
+@media screen and (max-width: 768px) {
+    body {
+        /* Cambiamos height fijo por min-height para permitir scroll
+           si la pantalla es muy bajita o sale el teclado */
+        height: auto;
+        min-height: 100vh;
+        padding: 20px 0; /* Un poco de aire arriba y abajo */
+    }
+
+    .LogReg-container {
+        max-width: 90%; /* Ocupa casi todo el ancho disponible */
+        padding: 2rem; /* Reducimos un poco el relleno */
+    }
+
+    .LogReg-title {
+        font-size: 3rem; /* Reducimos la fuente gigante */
+    }
+}
+
+/* Ajustes para Móviles pequeños (menos de 480px) */
+@media screen and (max-width: 480px) {
+    .LogReg-container {
+        padding: 1.5rem; /* Más espacio para el contenido, menos borde blanco */
+        width: 92%;
+    }
+
+    .LogReg-title {
+        font-size: 2.5rem; /* Ajuste para que "FrikBoys" quepa en una línea */
+    }
+
+    .input-group label {
+        font-size: 0.9rem;
+    }
+
+    .input-group input {
+        padding: 10px; /* Un poco más compacto */
+        font-size: 16px; /* Evita zoom automático en iPhone */
+    }
+
+    .LogReg-button {
+        padding: 12px;
+        font-size: 1rem;
+    }
+}
+
+/* Ajuste especial para cuando el móvil está en horizontal (Landscape)
+   o pantallas con poca altura, para evitar que se corte el formulario */
+@media screen and (max-height: 600px) {
+    body {
+        align-items: flex-start; /* Alinea al inicio para poder hacer scroll */
+        padding-top: 20px;
+        padding-bottom: 20px;
+        height: auto;
+    }
+}

@@ -99,3 +99,55 @@ body {
   border: none !important;
   padding: 0 !important;
 }
+
+/* =========================================
+   RESPONSIVE DESIGN (Media Queries)
+   Añadir al final del archivo CSS
+   ========================================= */
+
+/* Para Tablets y pantallas medianas (menos de 768px) */
+@media screen and (max-width: 768px) {
+  .LogReg-container {
+    max-width: 90%; /* En vez de fijo, usa porcentaje del ancho */
+    padding: 1.5rem; /* Reducimos un poco el padding interno */
+    margin: 3vh auto; /* Menos margen vertical */
+  }
+
+  .LogReg-title img {
+    width: 200px !important; /* Logo un poco más pequeño */
+  }
+}
+
+/* Para Móviles (menos de 480px) */
+@media screen and (max-width: 480px) {
+  .LogReg-container {
+    max-width: 95%; /* Ocupa casi todo el ancho de la pantalla */
+    padding: 1.2rem; /* Menos relleno para ganar espacio útil */
+    margin: 2rem auto; 
+    border-width: 2px; /* Borde un poco más fino */
+  }
+
+  .LogReg-title img {
+    width: 160px !important; /* Logo optimizado para móvil */
+    margin-bottom: 1rem;
+  }
+
+  .LogReg-subtitle {
+    font-size: 1rem; /* Texto un poco más pequeño */
+    margin-bottom: 1.2rem;
+  }
+
+  .input-group label {
+    font-size: 0.9rem;
+  }
+
+  .input-group input {
+    padding: 0.5rem; /* Inputs un poco más compactos */
+    font-size: 16px; /* Evita que el iPhone haga zoom al escribir */
+  }
+
+  .LogReg-button {
+    padding: 0.7rem;
+    font-size: 1rem;
+  }
+}

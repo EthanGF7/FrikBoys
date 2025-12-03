@@ -336,3 +336,109 @@ body {
   text-decoration: none;
   font-weight: bold;
 }
+
+/* =========================================
+   RESPONSIVE DESIGN GLOBAL (style.css)
+   Añadir al final del archivo
+   ========================================= */
+
+/* --- TABLETS Y MÓVILES GRANDES (max-width: 900px) --- */
+@media screen and (max-width: 900px) {
+    
+    /* 1. HEADER MÁS COMPACTO */
+    .main-encabezado {
+        padding: 0.5rem 1rem; /* Menos relleno a los lados */
+        height: 60px; /* Reducimos la altura de la barra */
+    }
+
+    /* Ajustamos el body para que el contenido no quede tapado por el header nuevo */
+    body {
+        padding-top: 60px; 
+    }
+
+    .main-encabezado .logo {
+        font-size: 1.5rem; /* Logo FrikBoys más pequeño */
+    }
+
+    .main-encabezado .brand {
+        font-size: 1.1rem; /* Enlace "Productos" más pequeño */
+    }
+
+    /* 2. CARRUSEL DE IMÁGENES PEQUEÑAS */
+    .carrusel-imagenes img {
+        height: 160px; /* Reducir altura de miniaturas */
+    }
+}
+
+/* --- MÓVILES (max-width: 600px) --- */
+@media screen and (max-width: 600px) {
+
+    /* 1. HEADER MÍNIMO */
+    .main-encabezado nav ul {
+        gap: 10px; /* Juntar más los enlaces */
+    }
+    
+    .main-encabezado nav a {
+        font-size: 0.9rem; /* Texto más pequeño */
+        padding: 5px;
+    }
+
+    /* 2. HERO / BANNER PRINCIPAL */
+    .hero {
+        height: 400px; /* Altura ajustada para móvil */
+    }
+
+    .hero_title {
+        font-size: 2.2rem; /* Reducir título gigante (3rem era mucho) */
+        line-height: 1.1;
+    }
+
+    .hero_subtitle {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .hero_btn {
+        font-size: 1.5rem; /* Flechas más pequeñas */
+        padding: 0.2rem 0.8rem;
+    }
+
+    /* 3. FORMULARIO LOGIN / REGISTRO */
+    .LogReg-container {
+        width: 92%; /* Ocupar casi todo el ancho */
+        margin: 2rem auto; /* Centrar con margen */
+        padding: 1.5rem; /* Menos padding interno */
+    }
+
+    .LogReg-title img {
+        width: 180px; /* Logo del formulario más pequeño */
+    }
+
+    .input-group input {
+        font-size: 16px; /* Evita zoom automático en iPhone */
+        padding: 0.8rem; /* Área de toque cómoda */
+    }
+
+    /* 4. PIE DE PÁGINA */
+    .main-piepagina {
+        padding: 1rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* --- MÓVILES MUY PEQUEÑOS (max-width: 380px) --- */
+@media screen and (max-width: 380px) {
+    /* Ocultar subtítulo del Hero si la pantalla es enana */
+    .hero_subtitle {
+        display: none; 
+    }
+    
+    .hero_title {
+        font-size: 1.8rem;
+    }
+
+    /* Ajuste extremo para el header */
+    .main-encabezado .brand {
+        display: none; /* Ocultar texto "Productos" y dejar solo el carrito si no cabe */
+    }
+}

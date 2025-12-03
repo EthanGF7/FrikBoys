@@ -287,3 +287,109 @@
     padding-top: 100px;
   }
 }
+
+/* =========================================
+   RESPONSIVE DESIGN (HOME DISNEY+)
+   Añadir al final del archivo home.css
+   ========================================= */
+
+/* --- TABLETS (max-width: 900px) --- */
+@media screen and (max-width: 900px) {
+  /* Ajustamos la rejilla de marcas a 2 columnas en vez de 3 */
+  .brands__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  /* El Hero un poco más bajo */
+  .hero {
+    height: 500px;
+  }
+}
+
+/* --- MÓVILES (max-width: 600px) --- */
+@media screen and (max-width: 600px) {
+  
+  /* 1. HERO: Ajuste drástico para pantallas verticales */
+  .hero {
+    height: 400px; /* Altura más cómoda para móvil */
+  }
+
+  /* Corregimos la imagen para que no sea gigante en móvil */
+  .hero img {
+    height: 100%; /* Volvemos al 100% estandar para que no se corte raro */
+    object-fit: cover; /* Aseguramos que rellene bien */
+    width: 100%;
+  }
+
+  /* Texto del Hero */
+  .hero_title {
+    font-size: 2.2rem; /* Reducimos de 4rem a 2.2rem */
+    line-height: 1.1;
+  }
+
+  .hero_subtitle {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 0 10px; /* Margen lateral para que no toque los bordes */
+  }
+
+  /* Botones del carrusel (Hero) más pequeños */
+  .hero_btn {
+    padding: 0.5rem;
+    font-size: 1.2rem;
+  }
+
+  /* 2. BRANDS (Marcas): 1 sola columna para botones grandes */
+  .brands {
+    padding: 1.5rem 1rem; /* Menos relleno lateral */
+  }
+
+  .brands__grid {
+    grid-template-columns: 1fr; /* Una marca debajo de otra */
+    gap: 1rem;
+  }
+
+  .brand-tile {
+    height: 100px; /* Un poco más bajitas */
+  }
+
+  /* 3. CARRILES (Rails): Scroll horizontal mejorado */
+  .rail {
+    padding: 0 1rem; /* Aprovechar más el ancho */
+  }
+
+  .rail__head {
+    margin: 0.5rem 0;
+  }
+
+  .rail__title {
+    font-size: 1.1rem;
+  }
+
+  /* Hacemos que las cartas del carril sean más grandes en móvil (80% del ancho)
+     para que se vea bien el producto y se invite a hacer scroll lateral */
+  .rail__track {
+    grid-auto-columns: 80%; 
+    gap: 0.8rem;
+  }
+
+  .card img {
+    aspect-ratio: 16 / 10; /* Imagen un pelín más alta en móvil */
+  }
+}
+
+/* --- MÓVILES MUY PEQUEÑOS (max-width: 380px) --- */
+@media screen and (max-width: 380px) {
+  .hero {
+    height: 350px;
+  }
+  
+  .hero_title {
+    font-size: 1.8rem;
+  }
+
+  /* Ocultar subtítulo si la pantalla es enana para priorizar el botón */
+  .hero_subtitle {
+    display: none; 
+  }
+}
