@@ -1,6 +1,7 @@
 // Importamos la lista de productos y la función del visor
 import { productos } from './Productos.js';
 import { cargarModelo } from './threeViewer.js';
+import { addToCart } from './cart.js';
 
 // ==================== GALERÍA ====================
 const gallery = document.getElementById('gallery');
@@ -63,6 +64,8 @@ if (gallery) {
             document.getElementById('modal-nombre').textContent = prod.nombre;
             document.getElementById('modal-precio').textContent = prod.precio.toFixed(2) + ' €';
             document.getElementById('modal-desc').textContent = prod.descripcion;
+          // Guardar producto actual para usar en el botón "Añadir al carrito"
+          window.currentProduct = prod;
             
             // Mostrar Modal
             modal.style.display = 'block';
@@ -90,7 +93,9 @@ window.addEventListener('click', e => {
 
 // Botón Carrito
 document.getElementById('btn-carrito').addEventListener('click', () => {
-    const nombre = document.getElementById('modal-nombre').textContent;
-    alert(`${nombre} añadido al carrito.`);
-    modal.style.display = 'none';
+  if(window.currentProduct){
+    addToCart(window.currentProduct);
+    alert(`${window.currentProduct.nombre} añadido al carrito.`);
+  }
+  modal.style.display = 'none';
 });

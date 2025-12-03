@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrito - FrikBoys</title>
     <link rel="stylesheet" href="../CSS/style.css">
+    <link rel="stylesheet" href="../CSS/PagCarrito.css">
     <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
     <link rel="icon" href="../imagenes/Logo.png" type="image/png" />
 </head>
@@ -27,6 +28,7 @@
 
     <main>
         <h1>Carrito</h1>
+        <div id="cart-container"></div>
     </main>
 
     <footer class="main-piepagina">
@@ -34,5 +36,12 @@
     </footer>
 
     <script src="../JS/main.js"></script>
+    <script type="module">
+        import { renderCart, updateCartBadge } from '../JS/cart.js';
+        document.addEventListener('DOMContentLoaded', ()=>{
+            updateCartBadge();
+            renderCart('cart-container');
+        });
+    </script>
 </body>
 </html>
