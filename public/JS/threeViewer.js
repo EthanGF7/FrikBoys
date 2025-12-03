@@ -6,8 +6,8 @@ import { OrbitControls } from 'https://cdn.skypack.dev/three@0.136.0/examples/js
 let animationId = null;
 let renderer = null;
 
-// Giro automático
-const SPEED_NORMAL = 4.0;  
+// Giro automático (Negativo para ir de derecha a izquierda)
+const SPEED_NORMAL = -2.0;  
 
 export function cargarModelo(containerId, rutaModelo) {
     const container = document.getElementById(containerId);
@@ -44,19 +44,8 @@ export function cargarModelo(containerId, rutaModelo) {
             <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
         </svg>`; 
 
-    // 3. Botón Vertical (Gira hacia arriba dando la vuelta)
-    const btnVertical = document.createElement('button');
-    btnVertical.className = 'control-btn btn-bottom-right';
-    btnVertical.title = "Girar Verticalmente";
-    btnVertical.innerHTML = `
-        <svg class="icon-arrow" viewBox="0 0 24 24">
-            <path d="M7 11h2v2H7v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm6-7h-4v4h4V4zm0 6h-4v4h4v-4zm0 6h-4v4h4v-4zM5 11H1v2h4v-2zm0 0v-6H1v6h4z" fill="none"/>
-            <path d="M12 5.83L15.17 9l1.41-1.41L12 3 7.41 7.59 8.83 9 12 5.83zm0 12.34L8.83 15l-1.41 1.41L12 21l4.59-4.59L15.17 15 12 18.17z"/>
-        </svg>`;
-
     container.appendChild(btnLeft);
     container.appendChild(btnRight);
-    container.appendChild(btnVertical);
 
     // --- ESCENA ---
     const scene = new THREE.Scene();
@@ -96,7 +85,7 @@ export function cargarModelo(containerId, rutaModelo) {
 
     // --- LÓGICA DE MOVIMIENTO ---
     
-    // 1. Rotación Horizontal
+    // Rotación Horizontal
     const rotateHorizontal = (direction) => {
         const step = Math.PI / 4; 
         const angleOffset = (direction === 'left') ? -step : step;
@@ -113,31 +102,6 @@ export function cargarModelo(containerId, rutaModelo) {
         camera.lookAt(0, 0, 0);
     };
 
-    // 2. Rotación Vertical (BUCLE COMPLETO)
-    const rotateVertical = () => {
-        // Usamos coordenadas esféricas
-        const spherical = new THREE.Spherical();
-        spherical.setFromVector3(camera.position);
-
-        // Subimos la cámara (restamos ángulo phi)
-        spherical.phi -= Math.PI / 4; 
-
-        // --- MAGIA AQUÍ ---
-        // Si phi es menor que 0, significa que hemos cruzado el Polo Norte (arriba del todo).
-        // Para dar la vuelta, invertimos el ángulo positivo y giramos 180 grados horizontalmente (theta).
-        if (spherical.phi < 0) {
-            spherical.phi = Math.abs(spherical.phi); // Lo hacemos positivo
-            spherical.theta += Math.PI; // Nos vamos al "otro lado" de la esfera (la espalda)
-        }
-
-        // Convertimos de vuelta a posición 3D
-        const newPos = new THREE.Vector3().setFromSpherical(spherical);
-        camera.position.copy(newPos);
-        
-        // Miramos al centro para que la cámara no pierda el objetivo
-        camera.lookAt(0, 0, 0);
-    };
-
     // --- EVENTOS ---
 
     btnLeft.addEventListener('click', (e) => {
@@ -148,11 +112,6 @@ export function cargarModelo(containerId, rutaModelo) {
     btnRight.addEventListener('click', (e) => {
         e.preventDefault();
         rotateHorizontal('right');
-    });
-
-    btnVertical.addEventListener('click', (e) => {
-        e.preventDefault();
-        rotateVertical();
     });
 
     // --- CARGA DEL MODELO ---

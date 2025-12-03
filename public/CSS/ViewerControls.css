@@ -1,7 +1,5 @@
 /* public/CSS/ViewerControls.css */
 
-/* Nos aseguramos de que el contenedor padre tenga posición relativa 
-   para que los botones se posicione respecto a él */
 #canvas-container, .visor3d {
     position: relative; 
 }
@@ -10,19 +8,19 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background-color: rgba(255, 255, 255, 0.1); /* Fondo semi-transparente */
+    background-color: rgba(255, 255, 255, 0.1); 
     border: 1px solid rgba(255, 255, 255, 0.2);
     color: white;
     width: 40px;
     height: 60px;
     cursor: pointer;
-    z-index: 10; /* Por encima del canvas */
+    z-index: 10; 
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 8px;
     transition: all 0.3s ease;
-    user-select: none; /* Evita que se seleccione el texto al hacer click rápido */
+    user-select: none; 
     outline: none;
 }
 
@@ -32,7 +30,7 @@
 }
 
 .control-btn:active {
-    background-color: rgba(16, 239, 49, 0.8); /*Al Pulsar*/
+    background-color: rgba(231, 76, 60, 0.8); 
     transform: translateY(-50%) scale(0.95);
 }
 
@@ -44,7 +42,6 @@
     right: 10px;
 }
 
-/* Iconos SVG */
 .icon-arrow {
     width: 24px;
     height: 24px;
@@ -52,27 +49,9 @@
     pointer-events: none;
 }
 
-/* Ocultar en móviles muy pequeños si molestan, opcional */
 @media (max-width: 400px) {
     .control-btn {
         width: 30px;
         height: 50px;
-    }
-}
-
-/* Botón abajo-derecha específico */
-.btn-bottom-right {
-    bottom: 10px;
-    right: 10px;
-    top: auto; /* Anula el top: 50% de la clase general */
-    transform: none; /* Quitamos el centrado vertical */
-    background-color: rgba(255, 255, 255, 0.2); /* Un pelín más visible */
-}
-
-/* Ajuste para que no choque con la flecha derecha en móviles */
-@media (max-width: 400px) {
-    .btn-bottom-right {
-        bottom: 5px;
-        right: 5px;
     }
 }
