@@ -24,70 +24,86 @@
 /* HERO */
 .hero {
   position: relative;
-  min-height: 52vh;
-  display: grid;
-  align-items: center;
+  width: 100%;
+  height: 650px;
   overflow: hidden;
-  margin-bottom: 2rem;
+  margin: 0;
+  padding: 0;
 }
-.hero__bg {
-  position: absolute;
-  inset: 0;
-  background-image: url("https://via.placeholder.com/1600x700/0a0f1e/ffffff?text=FrikBoys+Banner");
-  background-size: cover;
-  background-position: center;
-  filter: contrast(105%) brightness(95%) saturate(105%);
-  opacity: 0.9;
-}
-.hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, rgba(10, 15, 30, 0.25) 0%, rgba(10, 15, 30, 1) 85%);
-}
-.hero__content {
+
+.hero_carrusel {
   position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.hero_carrusel img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
   z-index: 1;
-  padding: 3rem 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
 }
-.hero__title {
-  font-family: 'Bangers', cursive;
-  font-size: clamp(2rem, 3.5vw, 3.5rem);
-  letter-spacing: 1px;
-  margin: 0 0 0.75rem;
-  color: #ffffff;
-}
-.hero__subtitle {
-  font-size: clamp(1rem, 2vw, 1.25rem);
-  color: #cdd7e4;
-  margin-bottom: 1.5rem;
-}
-.btn {
-  display: inline-block;
-  padding: 0.75rem 1.25rem;
-  border-radius: 6px;
-  text-decoration: none;
-  font-weight: 700;
-  transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease;
-}
-.btn--primary {
-  background-color: #1f80e0;
+
+.hero_btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0,0,0,0.5);
   color: white;
-  box-shadow: 0 6px 18px rgba(31,128,224,0.35);
+  border: none;
+  font-size: 2rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  z-index: 3;
 }
-.btn--primary:hover {
-  background-color: #1668b8;
-  transform: translateY(-1px);
+
+.hero_btn.left {
+  left: 10px;
+}
+
+.hero_btn.right {
+  right: 10px;
+}
+
+.hero_overlay {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: white;
+  padding-top: 120px;
+}
+
+.hero_title {
+  font-size: 3rem;
+  font-family: 'Bangers', cursive;
+  margin-bottom: 0.5rem;
+}
+
+.hero_subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.hero_actions .btn--primary {
+  background-color: #007bff;
+  color: white;
+  padding: 0.7rem 1.5rem;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
 }
 
 /* BRANDS / TILES */
 .brands {
-  padding: 0 2rem 1rem;
+  padding: 3rem 2rem 1rem;
   max-width: 1200px;
-  margin: 0 auto 1rem;
+  margin: 0 auto 2rem;
 }
+
 .brands__grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -96,6 +112,7 @@
   padding: 0;
   margin: 0;
 }
+
 .brand-tile {
   position: relative;
   display: grid;
@@ -108,11 +125,13 @@
   transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
   text-decoration: none;
 }
+
 .brand-tile:hover {
   transform: translateY(-2px);
   box-shadow: inset 0 0 0 1px rgba(255,255,255,0.14), 0 18px 32px rgba(0,0,0,0.55);
   filter: brightness(105%);
 }
+
 .brand-tile__label {
   font-family: 'Bangers', cursive;
   color: #fff;
@@ -120,10 +139,22 @@
   letter-spacing: 1px;
 }
 
-/* Fondos temáticos para cada tile (cámbialos por tus imágenes cuando las tengas) */
-.brand-tile--futbol { background-image: url("https://via.placeholder.com/600x300/27ae60/ffffff?text=Futbol"); background-size: cover; background-position: center; }
-.brand-tile--marvel { background-image: url("https://via.placeholder.com/600x300/e74c3c/ffffff?text=Marvel"); background-size: cover; background-position: center; }
-.brand-tile--starwars { background-image: url("https://via.placeholder.com/600x300/2f3640/ffffff?text=Star+Wars"); background-size: cover; background-position: center; }
+/* Fondos temáticos para cada tile */
+.brand-tile--futbol {
+  background-image: url("https://via.placeholder.com/600x300/27ae60/ffffff?text=Futbol");
+  background-size: cover;
+  background-position: center;
+}
+.brand-tile--marvel {
+  background-image: url("https://via.placeholder.com/600x300/e74c3c/ffffff?text=Marvel");
+  background-size: cover;
+  background-position: center;
+}
+.brand-tile--starwars {
+  background-image: url("https://via.placeholder.com/600x300/2f3640/ffffff?text=Star+Wars");
+  background-size: cover;
+  background-position: center;
+}
 
 /* RAIL / CARRUSEL */
 .rail {
@@ -131,20 +162,24 @@
   margin: 0 auto 2rem;
   padding: 0 2rem;
 }
+
 .rail__head {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 1rem 0;
 }
+
 .rail__title {
   font-size: 1.25rem;
   color: #e7edf6;
 }
+
 .rail__controls {
   display: flex;
   gap: 0.5rem;
 }
+
 .rail__btn {
   width: 36px;
   height: 36px;
@@ -155,11 +190,13 @@
   cursor: pointer;
   transition: background-color .18s ease, transform .18s ease, border-color .18s ease;
 }
+
 .rail__btn:hover {
   background: rgba(255,255,255,0.12);
   transform: translateY(-1px);
   border-color: rgba(255,255,255,0.35);
 }
+
 .rail__track {
   display: grid;
   grid-auto-flow: column;
@@ -170,9 +207,11 @@
   -webkit-overflow-scrolling: touch;
   padding-bottom: 0.5rem;
 }
+
 .rail__track::-webkit-scrollbar {
   height: 8px;
 }
+
 .rail__track::-webkit-scrollbar-thumb {
   background: rgba(255,255,255,0.18);
   border-radius: 8px;
@@ -188,29 +227,35 @@
   scroll-snap-align: start;
   transition: transform .2s ease, box-shadow .2s ease;
 }
+
 .card:hover {
   transform: translateY(-2px);
   box-shadow: 0 18px 32px rgba(0,0,0,0.55);
 }
+
 .card img {
   display: block;
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
 }
+
 .card__meta {
   padding: 0.75rem 0.75rem 1rem;
 }
+
 .card__title {
   margin: 0 0 0.25rem;
   font-size: 1rem;
   color: #ffffff;
 }
+
 .card__link {
   font-size: 0.9rem;
   color: #9ec3ff;
   text-decoration: none;
 }
+
 .card__link:hover {
   text-decoration: underline;
 }
@@ -221,11 +266,17 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+
 @media (max-width: 600px) {
   .brands__grid {
     grid-template-columns: 1fr;
   }
+
   .hero {
-    min-height: 46vh;
+    height: 400px;
+  }
+
+  .hero_overlay {
+    padding-top: 100px;
   }
 }

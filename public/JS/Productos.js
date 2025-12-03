@@ -43,7 +43,7 @@ export const productos = [
     id: "bota-futbol",
     nombre: "Bota de Fútbol CR7",
     precio: 54.99,
-    modelo: "../Models3d/Futbol/Pelota.glb",
+    modelo: "../Models3d/Futbol/Pelota2.glb",
     imagen: "https://via.placeholder.com/300x300/f39c12/ffffff?text=Bota",
     descripcion: "Réplica de la bota de fútbol profesional de Cristiano Ronaldo.",
     categoria: "futbol"

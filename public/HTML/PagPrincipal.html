@@ -15,37 +15,37 @@
 </head>
 
 <body class="home">
- <div id="header-container"></div>
+  <div id="header-container"></div>
 
-    <script>
-        (async function loadHeader(){
-            try{
-                const res = await fetch('header.html');
-                if(!res.ok) throw new Error('No se pudo cargar header');
-                const html = await res.text();
-                document.getElementById('header-container').innerHTML = html;
-            }catch(err){
-                console.error(err);
-            }
-        })();
-    </script>
+  <script>
+    (async function loadHeader() {
+      try {
+        const res = await fetch('header.html');
+        if (!res.ok) throw new Error('No se pudo cargar header');
+        const html = await res.text();
+        document.getElementById('header-container').innerHTML = html;
+      } catch (err) {
+        console.error(err);
+      }
+    })();
+  </script>
 
   <main>
     <!-- HERO -->
     <section class="hero">
-  <div class="hero_carrusel">
-    <button class="hero_btn left" onclick="moverHero(-1)">&#10094;</button>
-    <img id="hero_imagen" src="../imagenes/NazarioPagPrincipal.png" alt="Imagen destacada" />
-    <button class="hero_btn right" onclick="moverHero(1)">&#10095;</button>
+      <div class="hero_carrusel">
+        <button class="hero_btn left" onclick="moverHero(-1)">&#10094;</button>
+        <img id="hero_imagen" src="../imagenes/NazarioPagPrincipal.png" alt="Imagen destacada" />
+        <button class="hero_btn right" onclick="moverHero(1)">&#10095;</button>
 
-    <div class="hero_overlay">
-      <h1 class="hero_title">Creatividad 3D hecha en casa</h1>
-      <p class="hero_subtitle">Modelos únicos de Marvel, Star Wars y Fútbol</p>
-      <div class="hero_actions">
-        <a class="btn btn--primary" href="PagProductos.html">Explorar ahora</a>
+        <div class="hero_overlay">
+          <h1 class="hero_title">Creatividad 3D hecha en casa</h1>
+          <p class="hero_subtitle">Modelos únicos de Marvel, Star Wars y Fútbol</p>
+          <div class="hero_actions">
+            <a class="btn btn--primary" href="PagProductos.html">Explorar ahora</a>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
     </section>
 
     <!-- TILES DE TEMAS / MARCAS -->
@@ -79,7 +79,6 @@
         </div>
       </div>
       <div class="rail__track">
-        <!-- Sustituye los src por tus imágenes de producto -->
         <article class="card">
           <img src="../Models3D/Marvel/preview_corazon.jpg" alt="Corazón de Iron Man" />
           <div class="card__meta">
@@ -114,7 +113,6 @@
         </div>
       </div>
       <div class="rail__track">
-        <!-- Más tarjetas de ejemplo -->
         <article class="card">
           <img src="https://via.placeholder.com/800x450/e74c3c/ffffff?text=Marvel" alt="Marvel producto" />
           <div class="card__meta">
@@ -146,32 +144,38 @@
 
   <!-- JS global -->
   <script src="../JS/main.js"></script>
-  
 
-<script>
-  const imagenesHero = [
-    "../imagenes/NazarioPagPrincipal.png",
-    "../imagenes/ronaldinhoPagprincipal.png",
-    "../imagenes/Cristiano.png",
-    "../imagenes/StawWarsPagPrincipal.png",
-    "../imagenes/schchewbaccaPagPrincipal.png",
-    "../imagenes/darth-vaderPagPrincipal.png",
-    "../imagenes/WandaPagPrincipal.png",
-    "../imagenes/MarvelPagPrincipal.png",
-    "../imagenes/vengadoresPagPrincipal.png"
-  ];
+  <!-- JS del carrusel del hero -->
+  <script>
+    const imagenesHero = [
+      "../imagenes/NazarioPagPrincipal.png",
+      "../imagenes/ronaldinhoPagprincipal.png",
+      "../imagenes/Cristiano.png",
+      "../imagenes/StawWarsPagPrincipal.png",
+      "../imagenes/schchewbaccaPagPrincipal.png",
+      "../imagenes/darth-vaderPagPrincipal.png",
+      "../imagenes/WandaPagPrincipal.png",
+      "../imagenes/MarvelPagPrincipal.png",
+      "../imagenes/vengadoresPagPrincipal.png"
+    ];
 
-  let indiceHero = 0;
+    let indiceHero = 0;
 
-  function moverHero(direccion) {
-    indiceHero = (indiceHero + direccion + imagenesHero.length) % imagenesHero.length;
-    const imagen = document.getElementById("hero_imagen");
-    imagen.src = imagenesHero[indiceHero];
-  }
-</script>
+    function moverHero(direccion) {
+      indiceHero = (indiceHero + direccion + imagenesHero.length) % imagenesHero.length;
+      actualizarHero();
+    }
 
+    function actualizarHero() {
+      const imagen = document.getElementById("hero_imagen");
+      imagen.src = imagenesHero[indiceHero];
+    }
 
+    // Cambio automático cada 5 segundos
+    setInterval(() => {
+      moverHero(1);
+    }, 5000);
+  </script>
 
 </body>
-
 </html>
