@@ -10,7 +10,7 @@
   <!-- Nueva hoja de estilos para la home -->
   <link rel="stylesheet" href="../CSS/home.css" />
   <!-- CSS Controles -->
-    <link rel="stylesheet" href="../CSS/ViewerControls.css">
+  <link rel="stylesheet" href="../CSS/ViewerControls.css">
   <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Roboto:wght@400;700&display=swap"
     rel="stylesheet" />
   <link rel="icon" href="../imagenes/Logo.png" type="image/png" />
@@ -34,18 +34,16 @@
   <main>
     <!-- HERO -->
     <section class="hero">
-      
-        <button class="hero_btn left" onclick="moverHero(-1)">&#10094;</button>
-        <img id="hero_imagen" src="../imagenes/NazarioPagPrincipa.png" alt="Imagen destacada" />
-        <button class="hero_btn right" onclick="moverHero(1)">&#10095;</button>
 
-        <div class="hero_overlay">
-          <h1 class="hero_title">Creatividad 3D hecha en casa</h1>
-          <p class="hero_subtitle">Modelos únicos de Marvel, Star Wars y Fútbol</p>
-          <div class="hero_actions">
-            <a class="btn btn--primary" href="PagProductos.html">Explorar ahora</a>
-          </div>
-        
+      <button class="hero_btn left" onclick="moverHero(-1)">&#10094;</button>
+      <img id="hero_imagen" src="../imagenes/NazarioPagPrincipa.png" alt="Imagen destacada" />
+      <button class="hero_btn right" onclick="moverHero(1)">&#10095;</button>
+
+      <div class="hero_overlay">
+        <h1 class="hero_title">Creatividad 3D hecha en casa</h1>
+        <p class="hero_subtitle">Modelos únicos de Marvel, Star Wars y Fútbol</p>
+      </div>
+
     </section>
 
     <!-- TILES DE TEMAS / MARCAS -->
@@ -73,11 +71,11 @@
     <section class="rail">
       <div class="rail__head">
         <h2 class="rail__title">Destacados</h2>
-        <div class="rail__controls">
-          <button class="rail__btn rail__btn--prev" aria-label="Anterior">‹</button>
-          <button class="rail__btn rail__btn--next" aria-label="Siguiente">›</button>
-        </div>
       </div>
+      
+      <button class="rail__btn left" aria-label="Anterior">‹</button>
+      <button class="rail__btn right" aria-label="Siguiente">›</button>
+      
       <div class="rail__track">
         <article class="card">
           <img src="../Models3D/Marvel/preview_corazon.jpg" alt="Corazón de Iron Man" />
@@ -103,79 +101,49 @@
       </div>
     </section>
 
-    <!-- CARRUSEL MÁS RECIENTES -->
-    <section class="rail">
-      <div class="rail__head">
-        <h2 class="rail__title">Más recientes</h2>
-        <div class="rail__controls">
-          <button class="rail__btn rail__btn--prev" aria-label="Anterior">‹</button>
-          <button class="rail__btn rail__btn--next" aria-label="Siguiente">›</button>
-        </div>
-      </div>
-      <div class="rail__track">
-        <article class="card">
-          <img src="https://via.placeholder.com/800x450/e74c3c/ffffff?text=Marvel" alt="Marvel producto" />
-          <div class="card__meta">
-            <h3 class="card__title">Iron Tech</h3>
-            <a class="card__link" href="PagMarvel.html">Ver detalles</a>
-          </div>
-        </article>
-        <article class="card">
-          <img src="https://via.placeholder.com/800x450/27ae60/ffffff?text=Futbol" alt="Futbol producto" />
-          <div class="card__meta">
-            <h3 class="card__title">Balón Pro</h3>
-            <a class="card__link" href="PagFutbol.html">Ver detalles</a>
-          </div>
-        </article>
-        <article class="card">
-          <img src="https://via.placeholder.com/800x450/34495e/ffffff?text=Star+Wars" alt="Star Wars producto" />
-          <div class="card__meta">
-            <h3 class="card__title">Galactic Saber</h3>
-            <a class="card__link" href="PagStarWars.html">Ver detalles</a>
-          </div>
-        </article>
-      </div>
-    </section>
-  </main>
+    <footer class="main-piepagina">
+      <p>&copy; 2025 FrikBoys. Todos los derechos reservados.</p>
+    </footer>
 
-  <footer class="main-piepagina">
-    <p>&copy; 2025 FrikBoys. Todos los derechos reservados.</p>
-  </footer>
+    <!-- JS global -->
+    <script src="../JS/main.js"></script>
 
-  <!-- JS global -->
-  <script src="../JS/main.js"></script>
+    <!-- JS del carrusel del hero -->
+    <script>
+      const imagenesHero = [
+        "../imagenes/NazarioPagPrincipa.png",
+        "../imagenes/ronaldinhoPagprincipal.png",
+        "../imagenes/Cristiano.png",
+        "../imagenes/StawWarsPagPrincipal.png",
+        "../imagenes/swchewbaccaPagPrincipal.png",
+        "../imagenes/darth-vaderPagPrincipal.png",
+        "../imagenes/WandaPagPrincipal.png",
+        "../imagenes/MarvelPagPrincipal.png",
+        "../imagenes/vengadoresPagPrincipal.png"
+      ];
 
-  <!-- JS del carrusel del hero -->
-  <script>
-    const imagenesHero = [
-      "../imagenes/NazarioPagPrincipa.png",
-      "../imagenes/ronaldinhoPagprincipal.png",
-      "../imagenes/Cristiano.png",
-      "../imagenes/StawWarsPagPrincipal.png",
-      "../imagenes/swchewbaccaPagPrincipal.png",
-      "../imagenes/darth-vaderPagPrincipal.png",
-      "../imagenes/WandaPagPrincipal.png",
-      "../imagenes/MarvelPagPrincipal.png",
-      "../imagenes/vengadoresPagPrincipal.png"
-    ];
+      let indiceHero = 0;
 
-    let indiceHero = 0;
+      function moverHero(direccion) {
+        indiceHero = (indiceHero + direccion + imagenesHero.length) % imagenesHero.length;
+        actualizarHero();
+      }
 
-    function moverHero(direccion) {
-      indiceHero = (indiceHero + direccion + imagenesHero.length) % imagenesHero.length;
-      actualizarHero();
-    }
+      function actualizarHero() {
+        const imagen = document.getElementById("hero_imagen");
+        imagen.src = imagenesHero[indiceHero];
+      }
 
-    function actualizarHero() {
-      const imagen = document.getElementById("hero_imagen");
-      imagen.src = imagenesHero[indiceHero];
-    }
+      // Cambio automático cada 5 segundos
+      setInterval(() => {
+        moverHero(1);
+      }, 5000);
+    </script>
 
-    // Cambio automático cada 5 segundos
-    setInterval(() => {
-      moverHero(1);
-    }, 5000);
-  </script>
-
+    <script src="../JS/carousel.js"></script>
 </body>
+
+</html>
+</body>
+
 </html>

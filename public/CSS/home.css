@@ -17,6 +17,7 @@
 .main-encabezado nav a {
   opacity: 0.9;
 }
+
 .main-encabezado nav a:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
@@ -34,7 +35,6 @@
 }
 
 
-
 /* Mejorado el posicionamiento de la imagen para llenar completamente el contenedor */
 .hero img {
   position: absolute;
@@ -43,8 +43,8 @@
   width: 100%;
   height: 135%;
 
-  object-fit: 100% , 100%;
- /* object-position: top center;*/
+  object-fit: 100%, 100%;
+  /* object-position: top center;*/
 
   display: block;
   margin: 0;
@@ -152,11 +152,13 @@
   background-size: cover;
   background-position: center;
 }
+
 .brand-tile--marvel {
   background-image: url("https://via.placeholder.com/600x300/e74c3c/ffffff?text=Marvel");
   background-size: cover;
   background-position: center;
 }
+
 .brand-tile--starwars {
   background-image: url("https://via.placeholder.com/600x300/2f3640/ffffff?text=Star+Wars");
   background-size: cover;
@@ -187,15 +189,49 @@
   gap: 0.5rem;
 }
 
+/*.rail__btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 1rem;
+  cursor: pointer;
+  font-size: 1.5rem;
+  transition: background-color 0.3s ease;
+}*/
+
+/*.rail__btn:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}*/
+
+
+
 .rail__btn {
+  position: absolute;
   width: 36px;
   height: 36px;
+  margin-top: 5%;
+  transform: translateY(-50%);
+  
   border-radius: 6px;
   border: 1px solid rgba(255, 255, 255, 0.15);
   background: rgba(255, 255, 255, 0.06);
+  padding: 1rem;
   color: #fff;
   cursor: pointer;
   transition: background-color .18s ease, transform .18s ease, border-color .18s ease;
+  z-index: 5;
+}
+
+.rail__btn.left {
+  left: 22.5rem;
+}
+
+.rail__btn.right {
+  right: 22.5rem;
 }
 
 .rail__btn:hover {
@@ -204,37 +240,46 @@
   border-color: rgba(255, 255, 255, 0.35);
 }
 
+/* === MODIFICACIONES CLAVE PARA EL CARRUSEL CENTRADO (.rail__track) === */
 .rail__track {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: minmax(220px, 28%);
+
+  /* [MODIFICADO] Nuevo ancho de tarjeta base. Reemplaza minmax(220px, 28%) */
+  grid-auto-columns: minmax(250px, 350px);
   gap: 1rem;
-  overflow-x: auto;
-  scroll-snap-type: x proximity;
+  /*overflow-x: auto;*/
+
+  /* [ELIMINADO] Quitar scroll-snap-type para que JavaScript controle el scroll */
+  /* scroll-snap-type: x proximity; */
+
   -webkit-overflow-scrolling: touch;
   padding-bottom: 0.5rem;
+
+  /* [AÑADIDO] Padding lateral para centrar la primera y última tarjeta */
+  padding-left: 20%;
+  padding-right: 20%;
 }
 
-.rail__track::-webkit-scrollbar {
-  height: 8px;
-}
 
-.rail__track::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.18);
-  border-radius: 8px;
-}
 
-/* Tarjeta de contenido */
+/* === MODIFICACIONES CLAVE PARA LAS TARJETAS (.card) === */
 .card {
   position: relative;
   border-radius: 12px;
   overflow: hidden;
   background: #121826;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
-  scroll-snap-align: start;
-  transition: transform .2s ease, box-shadow .2s ease;
+
+  /* [ELIMINADO] Quitar scroll-snap-align: start; */
+
+  /* [MODIFICADO] Transición más elaborada para el efecto de escala y opacidad */
+  transition: transform .4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    box-shadow .4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity .4s ease, filter .4s ease;
 }
 
+/* Efecto Hover para TODAS las tarjetas (base) */
 .card:hover {
   transform: translateY(-2px);
   box-shadow: 0 18px 32px rgba(0, 0, 0, 0.55);
@@ -267,6 +312,37 @@
   text-decoration: underline;
 }
 
+/* --- ESTILO DE LA TARJETA CENTRAL (GRANDE) --- */
+.card--center {
+  transform: scale(1.2);
+  z-index: 10;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+  opacity: 1;
+  filter: brightness(1);
+}
+
+.card--center:hover {
+  transform: scale(1.2) translateY(-2px);
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.8);
+}
+
+/* --- ESTILO DE LAS TARJETAS LATERALES (PEQUEÑAS) --- */
+.card--side {
+  opacity: 0.7;
+  filter: brightness(0.8);
+  transform: scale(1);
+  z-index: 1;
+}
+
+/* El efecto de animación al pasar el ratón (hover) para tarjetas laterales */
+.card--side:hover {
+  transform: scale(1.05) translateY(-2px);
+  opacity: 1;
+  filter: brightness(1);
+  z-index: 5;
+  box-shadow: 0 18px 32px rgba(0, 0, 0, 0.55);
+}
+
 /* Responsive */
 @media (max-width: 900px) {
   .brands__grid {
@@ -289,17 +365,17 @@
 }
 
 /* =========================================
-   RESPONSIVE DESIGN (HOME DISNEY+)
-   Añadir al final del archivo home.css
-   ========================================= */
+   RESPONSIVE DESIGN (HOME DISNEY+)
+   ========================================= */
 
 /* --- TABLETS (max-width: 900px) --- */
 @media screen and (max-width: 900px) {
+
   /* Ajustamos la rejilla de marcas a 2 columnas en vez de 3 */
   .brands__grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   /* El Hero un poco más bajo */
   .hero {
     height: 500px;
@@ -308,29 +384,29 @@
 
 /* --- MÓVILES (max-width: 600px) --- */
 @media screen and (max-width: 600px) {
-  
+
   /* 1. HERO: Ajuste drástico para pantallas verticales */
   .hero {
-    height: 400px; /* Altura más cómoda para móvil */
+    height: 400px;
   }
 
   /* Corregimos la imagen para que no sea gigante en móvil */
   .hero img {
-    height: 100%; /* Volvemos al 100% estandar para que no se corte raro */
-    object-fit: cover; /* Aseguramos que rellene bien */
+    height: 100%;
+    object-fit: cover;
     width: 100%;
   }
 
   /* Texto del Hero */
   .hero_title {
-    font-size: 2.2rem; /* Reducimos de 4rem a 2.2rem */
+    font-size: 2.2rem;
     line-height: 1.1;
   }
 
   .hero_subtitle {
     font-size: 1rem;
     margin-bottom: 1.5rem;
-    padding: 0 10px; /* Margen lateral para que no toque los bordes */
+    padding: 0 10px;
   }
 
   /* Botones del carrusel (Hero) más pequeños */
@@ -341,21 +417,21 @@
 
   /* 2. BRANDS (Marcas): 1 sola columna para botones grandes */
   .brands {
-    padding: 1.5rem 1rem; /* Menos relleno lateral */
+    padding: 1.5rem 1rem;
   }
 
   .brands__grid {
-    grid-template-columns: 1fr; /* Una marca debajo de otra */
+    grid-template-columns: 1fr;
     gap: 1rem;
   }
 
   .brand-tile {
-    height: 100px; /* Un poco más bajitas */
+    height: 100px;
   }
 
   /* 3. CARRILES (Rails): Scroll horizontal mejorado */
   .rail {
-    padding: 0 1rem; /* Aprovechar más el ancho */
+    padding: 0 1rem;
   }
 
   .rail__head {
@@ -366,15 +442,33 @@
     font-size: 1.1rem;
   }
 
-  /* Hacemos que las cartas del carril sean más grandes en móvil (80% del ancho)
-     para que se vea bien el producto y se invite a hacer scroll lateral */
+  /* [MODIFICADO] Anulamos los estilos de centrado en móvil. */
   .rail__track {
-    grid-auto-columns: 80%; 
+    grid-auto-columns: 80%;
     gap: 0.8rem;
+
+    /* Restaurar padding lateral normal para scroll de móvil */
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
   .card img {
-    aspect-ratio: 16 / 10; /* Imagen un pelín más alta en móvil */
+    aspect-ratio: 16 / 10;
+  }
+
+  /* [AÑADIDO] Anular los efectos de escala de centrado en móvil */
+  .card--center,
+  .card--side {
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    z-index: auto !important;
+  }
+
+  .card--center:hover,
+  .card--side:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 18px 32px rgba(0, 0, 0, 0.55) !important;
   }
 }
 
@@ -383,13 +477,13 @@
   .hero {
     height: 350px;
   }
-  
+
   .hero_title {
     font-size: 1.8rem;
   }
 
   /* Ocultar subtítulo si la pantalla es enana para priorizar el botón */
   .hero_subtitle {
-    display: none; 
+    display: none;
   }
 }
