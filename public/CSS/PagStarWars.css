@@ -18,6 +18,11 @@
     cursor: pointer; 
 }
 
+/* Asegura que el contenido interno (preview) pueda posicionarse correctamente */
+.product-card { 
+    position: relative;
+}
+
 .product-card:hover { 
     transform: translateY(-10px); 
 }
@@ -26,6 +31,14 @@
     width: 100%; 
     height: 250px; 
     object-fit: cover; 
+}
+
+/* Contenedor para previews 3D dentro de las tarjetas */
+.card-model-preview {
+    width: 100%;
+    height: 250px; /* La misma altura que tenías para la imagen */
+    background-color: #f0f0f0; /* Un gris muy clarito de fondo opcional */
+    cursor: pointer;
 }
 
 .product-card h3 { 

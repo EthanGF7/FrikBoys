@@ -3,22 +3,31 @@ import { productos } from './Productos.js';
 import { cargarModelo } from './threeViewer.js';
 import { addToCart } from './cart.js';
 
-// ==================== GALERÍA ====================
 const gallery = document.getElementById('gallery');
 
-// Renderizar las tarjetas
+// ==================== GALERÍA (con previews 3D) ====================
 if (gallery) {
-    productos.filter(p => p.categoria === 'starwars').forEach(p => {
-        // Solo mostramos productos de Star Wars
+    // 1. Primero generamos todo el HTML de las tarjetas
+    const starWarsProducts = productos.filter(p => p.categoria === 'starwars');
+    
+    starWarsProducts.forEach(p => {
+        // En lugar de <img>, usamos un div con un ID único para el modelo
         const card = `
             <div class="product-card" data-id="${p.id}">
-                <img src="${p.imagen}" alt="${p.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/300'">
+                <div id="preview-${p.id}" class="card-model-preview"></div>
                 <h3>${p.nombre}</h3>
                 <p class="precio">${p.precio.toFixed(2)} €</p>
-                <button class="btn-ver">Ver modelo 3D</button>
+                <button class="btn-ver">Ver detalles</button>
             </div>
         `;
         gallery.insertAdjacentHTML('beforeend', card);
+    });
+
+    // 2. Una vez que el HTML existe en el DOM, cargamos los modelos en bucle
+    starWarsProducts.forEach(p => {
+        // Llamamos a cargarModelo en modo PREVIEW (true)
+        // Esto cargará el modelo sin botones y rotando
+        cargarModelo(`preview-${p.id}`, p.modelo, true);
     });
 }
 
@@ -72,30 +81,42 @@ if (gallery) {
 
             // INICIAR EL VISOR 3D CENTRALIZADO
             // Le pasamos el ID del div y la ruta del modelo
-            cargarModelo('visor3d', prod.modelo);
+            // Ejecutamos en el siguiente frame para asegurar tamaños calculados
+            requestAnimationFrame(() => {
+                cargarModelo('visor3d', prod.modelo, false);
+            });
         }
     });
 }
 
 // Cerrar Modal
-closeModal.addEventListener('click', () => {
-    modal.style.display = 'none';
-    // Opcional: Podrías limpiar el contenedor 3D aquí si quisieras
-    document.getElementById('visor3d').innerHTML = '';
-});
+if (closeModal) {
+  closeModal.addEventListener('click', () => {
+      modal.style.display = 'none';
+      // Limpiar el contenedor 3D
+      const v = document.getElementById('visor3d');
+      if (v) v.innerHTML = '';
+  });
+}
 
 window.addEventListener('click', e => {
     if (e.target === modal) {
         modal.style.display = 'none';
-        document.getElementById('visor3d').innerHTML = '';
+        const v = document.getElementById('visor3d');
+        if (v) v.innerHTML = '';
     }
 });
 
 // Botón Carrito
-document.getElementById('btn-carrito').addEventListener('click', () => {
-  if(window.currentProduct){
-    addToCart(window.currentProduct);
-    alert(`${window.currentProduct.nombre} añadido al carrito.`);
-  }
-  modal.style.display = 'none';
-});
+const btnCarrito = document.getElementById('btn-carrito');
+if (btnCarrito) {
+  btnCarrito.addEventListener('click', () => {
+    if(window.currentProduct){
+      addToCart(window.currentProduct);
+      alert(`${window.currentProduct.nombre} añadido al carrito.`);
+    }
+    modal.style.display = 'none';
+    const v = document.getElementById('visor3d');
+    if (v) v.innerHTML = '';
+  });
+}
