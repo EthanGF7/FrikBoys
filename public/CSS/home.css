@@ -146,21 +146,32 @@
   letter-spacing: 1px;
 }
 
+    /* Updated hover to show GIF on mouseover */
+    .category-button:hover {
+      transform: scale(1.05);
+      border-color: rgba(249, 249, 249, 0.8);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    }
+
+    .category-button:hover::before {
+      opacity: 1;
+    }
+
 /* Fondos temáticos para cada tile */
 .brand-tile--futbol {
-  background-image: url("https://via.placeholder.com/600x300/27ae60/ffffff?text=Futbol");
+  background-image: url("/public/Gif/uefa-champions-league.gif");
   background-size: cover;
   background-position: center;
 }
 
 .brand-tile--marvel {
-  background-image: url("https://via.placeholder.com/600x300/e74c3c/ffffff?text=Marvel");
+  background-image: url("/public/Gif/marvel-intro-marvel-theme.gif");
   background-size: cover;
   background-position: center;
 }
 
 .brand-tile--starwars {
-  background-image: url("https://via.placeholder.com/600x300/2f3640/ffffff?text=Star+Wars");
+  background-image: url("/public/Gif/abell46s-reface.gif");
   background-size: cover;
   background-position: center;
 }
@@ -505,3 +516,4 @@
     display: none;
   }
 }
+
