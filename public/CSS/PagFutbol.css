@@ -54,10 +54,11 @@ main {
 }
 
 .product-card { 
-    background: white; 
+    background: #1e1e1e; 
+    color: #efefef;
     border-radius: 12px; 
     overflow: hidden; 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.6); 
     text-align: center; 
     transition: transform .3s; 
     cursor: pointer; 
@@ -116,13 +117,16 @@ main {
 }
 
 .modal-content { 
-    background: white; 
+    background: #1e1e1e; 
+    color: #efefef;
     margin: 5% auto; 
     padding: 20px; 
     width: 90%; 
     max-width: 1000px; 
     border-radius: 15px; 
     position: relative; 
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.04);
 }
 
 .close { 
@@ -132,11 +136,11 @@ main {
     font-size: 40px; 
     font-weight: bold; 
     cursor: pointer; 
-    color: #aaa; 
+    color: #ddd; 
 }
 
 .close:hover { 
-    color: #000; 
+    color: #fff; 
 }
 
 .modal-grid { 
