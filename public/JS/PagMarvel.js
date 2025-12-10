@@ -8,11 +8,14 @@ const gallery = document.getElementById('gallery');
 
 // Renderizar las tarjetas
 if (gallery) {
-    productos.filter(p => p.categoria === 'marvel').forEach(p => {
-        // Solo mostramos productos de Marvel
+    // 1. Filtramos primero los productos de Marvel
+    const marvelProducts = productos.filter(p => p.categoria === 'marvel');
+
+    // 2. Generamos el HTML (Sustituyendo la IMG por el DIV del modelo)
+    marvelProducts.forEach(p => {
         const card = `
             <div class="product-card" data-id="${p.id}">
-                <img src="${p.imagen}" alt="${p.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/300'">
+                <div id="preview-${p.id}" class="card-model-preview"></div>
                 <h3>${p.nombre}</h3>
                 <p class="precio">${p.precio.toFixed(2)} €</p>
                 <button class="btn-ver">Ver modelo 3D</button>
@@ -20,10 +23,15 @@ if (gallery) {
         `;
         gallery.insertAdjacentHTML('beforeend', card);
     });
+
+    // 3. Cargamos los modelos en miniatura (Modo Preview = true)
+    marvelProducts.forEach(p => {
+        cargarModelo(`preview-${p.id}`, p.modelo, true);
+    });
 }
 
 // ==================== MODAL ====================
-// Crear el HTML del modal si no existe (o puedes tenerlo fijo en el HTML)
+// Crear el HTML del modal si no existe
 if (!document.getElementById('modal')) {
   document.body.insertAdjacentHTML('beforeend', `
     <div id="modal" class="modal">
@@ -64,15 +72,18 @@ if (gallery) {
             document.getElementById('modal-nombre').textContent = prod.nombre;
             document.getElementById('modal-precio').textContent = prod.precio.toFixed(2) + ' €';
             document.getElementById('modal-desc').textContent = prod.descripcion;
-          // Guardar producto actual para usar en el botón "Añadir al carrito"
-          window.currentProduct = prod;
+            
+            // Guardar producto actual
+            window.currentProduct = prod;
             
             // Mostrar Modal
             modal.style.display = 'block';
 
-            // INICIAR EL VISOR 3D CENTRALIZADO
-            // Le pasamos el ID del div y la ruta del modelo
-            cargarModelo('visor3d', prod.modelo);
+            // INICIAR EL VISOR 3D CENTRALIZADO (Modo Full = false)
+            // Usamos requestAnimationFrame para asegurar que el modal ya es visible y tiene tamaño
+            requestAnimationFrame(() => {
+                cargarModelo('visor3d', prod.modelo, false);
+            });
         }
     });
 }
@@ -80,7 +91,6 @@ if (gallery) {
 // Cerrar Modal
 closeModal.addEventListener('click', () => {
     modal.style.display = 'none';
-    // Opcional: Podrías limpiar el contenedor 3D aquí si quisieras
     document.getElementById('visor3d').innerHTML = '';
 });
 

@@ -1,3 +1,12 @@
+/* --- NUEVO: Estilo para el contenedor del modelo en la carta --- */
+.card-model-preview {
+    width: 100%;
+    height: 250px; /* Misma altura que tenían las imágenes */
+    background-color: transparent; 
+    cursor: pointer;
+    overflow: hidden;
+}
+
 /* Fondo de página Marvel */
 body {
     background-image: url('../imagenes/Marvel/EstampadoWanda.jpg');
@@ -52,12 +61,14 @@ main {
     text-align: center; 
     transition: transform .3s; 
     cursor: pointer; 
+    position: relative; /* Importante para el posicionamiento */
 }
 
 .product-card:hover { 
     transform: translateY(-10px); 
 }
 
+/* Ya no usamos IMG para el producto principal, pero dejamos la regla por si acaso */
 .product-card img { 
     width: 100%; 
     height: 250px; 
@@ -173,30 +184,25 @@ main {
 
 /* =========================================
    MEJORAS RESPONSIVE (Galería y Modal)
-   Añadir al final del archivo CSS
    ========================================= */
 
 /* --- Ajustes para Tablets y Pantallas Pequeñas (max-width: 768px) --- */
 @media (max-width: 768px) {
-    /* Reducimos el padding de la galería para ganar espacio */
     .gallery {
         gap: 1rem;
         padding: 1rem;
     }
 
-    /* El modal ya se ponía en 1 columna, pero ajustamos márgenes */
     .modal-content {
-        width: 95%; /* Casi todo el ancho */
-        margin: 10% auto; /* Un poco más de aire arriba */
+        width: 95%; 
+        margin: 10% auto; 
         padding: 15px;
     }
 
-    /* Reducimos la altura del visor 3D para que quepa el botón de compra */
     .visor3d {
         height: 350px;
     }
 
-    /* Títulos un poco más pequeños */
     .product-card h3 {
         font-size: 1.1rem;
     }
@@ -204,62 +210,61 @@ main {
 
 /* --- Ajustes para Móviles (max-width: 480px) --- */
 @media (max-width: 480px) {
-    /* En móviles, forzamos 1 sola columna para que la imagen se vea grande y bonita */
     .gallery {
         grid-template-columns: 1fr; 
         padding: 10px;
     }
 
-    /* Ajuste de tarjeta */
-    .product-card img {
-        height: 220px; /* Un poco menos de altura para ver el precio antes */
+    /* Ajuste de altura del contenedor 3D en móvil */
+    .card-model-preview {
+        height: 220px;
     }
 
     .btn-ver {
-        padding: 15px; /* Botón más alto para dedo gordo (touch friendly) */
+        padding: 15px; 
     }
 
     /* --- Modal en Móvil --- */
     .modal-content {
         margin: 0;
         width: 100%;
-        height: 100%; /* Pantalla completa para inmersión */
-        border-radius: 0; /* Sin bordes redondeados */
+        height: 100%; 
+        border-radius: 0; 
         max-width: none;
-        overflow-y: auto; /* Scroll interno si el contenido es largo */
+        overflow-y: auto; 
     }
 
     .close {
         top: 15px;
         right: 20px;
-        font-size: 2.5rem; /* X más grande para cerrar fácil con el dedo */
-        background: rgba(255,255,255,0.8); /* Fondo para que se vea sobre el visor 3D si coinciden */
+        font-size: 2.5rem; 
+        background: rgba(255,255,255,0.8); 
         width: 40px;
         height: 40px;
         text-align: center;
         line-height: 40px;
         border-radius: 50%;
-        z-index: 100; /* Aseguramos que esté encima del visor */
+        z-index: 100; 
     }
 
     .visor3d {
-        height: 300px; /* Altura suficiente para móvil */
+        height: 300px; 
     }
 
     .modal-grid {
-        display: flex; /* Cambiamos grid por flex column */
+        display: flex; 
         flex-direction: column;
         gap: 1.5rem;
-        margin-top: 3rem; /* Espacio para que la X no tape el contenido */
+        margin-top: 3rem; 
     }
 
     .info {
-        padding-bottom: 2rem; /* Espacio al final para scroll */
+        padding-bottom: 2rem; 
     }
 
     .btn-carrito {
-        width: 100%; /* Botón de comprar ocupa todo el ancho */
-        position: sticky; /* (Opcional) Lo deja pegado abajo si quieres */
+        width: 100%; 
+        position: sticky; 
         bottom: 0;
     }
 }
@@ -267,9 +272,9 @@ main {
 /* --- Ajuste para móviles en horizontal (Landscape) --- */
 @media (max-height: 500px) and (orientation: landscape) {
     .modal-content {
-        height: auto; /* Permitir scroll en landscape */
+        height: auto; 
     }
     .visor3d {
-        height: 200px; /* Visor más pequeño para ver info */
+        height: 200px; 
     }
 }
