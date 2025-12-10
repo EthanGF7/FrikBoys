@@ -91,6 +91,14 @@ main h1{
   color: #e6eef8;
 }
 
+/* Mostrar las flechas con color gris */
+.qty-input::-webkit-outer-spin-button,
+.qty-input::-webkit-inner-spin-button {
+  -webkit-appearance: inner-spin-button !important;
+  opacity: 1;
+  color: #9aa4b2;
+}
+
 .btn-remove{
   background: transparent;
   color: var(--accent-2);
@@ -114,8 +122,8 @@ main h1{
 .cart-summary p{ margin: 0; font-size: 1.1rem; }
 
 .btn-primary{
-  background: linear-gradient(90deg,var(--accent), #ff8f66);
-  color: #081221;
+  background: linear-gradient(90deg, #27ae60, #2ecc71);
+  color: #ffffff;
   border: none;
   padding: 10px 16px;
   border-radius: 10px;
@@ -126,19 +134,6 @@ main h1{
 
 /* Empty state */
 #cart-container p{ color: var(--muted); padding: 12px; }
-
-/* Header cart badge (used in header.html) */
-#cart-count{
-  display:inline-block;
-  min-width:22px;
-  padding:2px 6px;
-  margin-left:6px;
-  font-size:0.9rem;
-  background: var(--accent);
-  color: #071026;
-  border-radius: 999px;
-  vertical-align: middle;
-}
 
 /* Responsive: en pantallas anchas, separar lista y resumen */
 @media(min-width:900px){

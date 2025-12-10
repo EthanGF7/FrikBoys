@@ -38,10 +38,26 @@
     <script src="../JS/main.js"></script>
     <script type="module">
         import { renderCart, updateCartBadge } from '../JS/cart.js';
-        document.addEventListener('DOMContentLoaded', ()=>{
+        
+        // Esperar a que el header se cargue antes de actualizar el badge
+        async function loadHeaderAndRenderCart(){
+            // Esperar a que el header esté en el DOM
+            const headerContainer = document.getElementById('header-container');
+            await new Promise((resolve) => {
+                const checkHeader = setInterval(() => {
+                    if(headerContainer.innerHTML.trim().length > 0){
+                        clearInterval(checkHeader);
+                        // Pequeño delay para asegurar que el #cart-count exista
+                        setTimeout(resolve, 50);
+                    }
+                }, 10);
+            });
+            
             updateCartBadge();
             renderCart('cart-container');
-        });
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadHeaderAndRenderCart);
     </script>
 </body>
 </html>
