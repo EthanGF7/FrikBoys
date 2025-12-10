@@ -9,8 +9,9 @@
 
 /* --- Galería de Productos --- */
 .gallery { 
-    display: grid; 
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+    display: flex; /* Cambiado de grid a flex */
+    flex-wrap: wrap; /* Permite que los elementos pasen a la siguiente línea */
+    justify-content: center; /* Centra los elementos horizontalmente */
     gap: 2rem; 
     padding: 2rem; 
 }
@@ -54,6 +55,7 @@ main {
 }
 
 .product-card { 
+    width: 280px;
     background: #1e1e1e; 
     color: #efefef;
     border-radius: 12px; 
