@@ -159,13 +159,13 @@
         padding: 10px;
     }
 
-    /* Ajuste de altura del modelo en móvil */
+    /* Ajuste de altura del contenedor 3D en móvil */
     .card-model-preview {
         height: 220px;
     }
 
     .btn-ver {
-        padding: 15px;
+        padding: 15px; 
     }
 
     /* --- Modal en Móvil --- */

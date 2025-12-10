@@ -61,11 +61,11 @@ export const productos = [
   // STAR WARS
   {
     id: "sable-luke",
-    nombre: "Sable Láser de Luke",
+    nombre: "Sable Láser de Yoda",
     precio: 69.99,
     modelo: "../Models3d/StarWars/espadalaser_yoda.glb",
     imagen: "https://via.placeholder.com/300x300/2980b9/ffffff?text=Luke",
-    descripcion: "Sable láser azul de Luke Skywalker con luz LED opcional.",
+    descripcion: "Sable láser azul de Yoda con luz LED opcional.",
     categoria: "starwars"
   },
    {
