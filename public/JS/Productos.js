@@ -14,7 +14,7 @@ export const productos = [
     id: "mascara-spiderman",
     nombre: "Máscara de Spider-Man",
     precio: 49.99,
-    modelo: "../Models3d/Marvel/Pelota.glb",
+    modelo: "../Models3d/Marvel/spiderman_head.glb",
     imagen: "https://via.placeholder.com/300x300/e74c3c/ffffff?text=Spider-Man",
     descripcion: "Máscara icónica de Spider-Man con textura realista y acabado brillante.",
     categoria: "marvel"
@@ -23,7 +23,7 @@ export const productos = [
     id: "martillo-thor",
     nombre: "Mjolnir – Martillo de Thor",
     precio: 99.99,
-    modelo: "../Models3d/Marvel/Pelota.glb",
+    modelo: "../Models3d/Marvel/mjolnir.glb",
     imagen: "https://via.placeholder.com/300x300/3498db/ffffff?text=Mjolnir",
     descripcion: "Réplica del martillo mítico de Thor con detalles nórdicos.",
     categoria: "marvel"
@@ -40,19 +40,19 @@ export const productos = [
     categoria: "futbol"
   },
   {
-    id: "bota-futbol",
-    nombre: "Bota de Fútbol CR7",
+    id: "Cristiano",
+    nombre: "Figura CR7",
     precio: 54.99,
-    modelo: "../Models3d/Futbol/Pelota2.glb",
+    modelo: "../Models3d/Futbol/cristiano_ronaldo_of_the_portugalia.glb",
     imagen: "https://via.placeholder.com/300x300/f39c12/ffffff?text=Bota",
-    descripcion: "Réplica de la bota de fútbol profesional de Cristiano Ronaldo.",
+    descripcion: "Réplica de Cristiano Ronaldo.",
     categoria: "futbol"
   },
   {
     id: "copa-mundial",
     nombre: "Copa Mundial",
     precio: 79.99,
-    modelo: "../Models3d/Futbol/Pelota.glb",
+    modelo: "../Models3d/Futbol/copa_del_mundo_fifa_juguete_v2.glb",
     imagen: "https://via.placeholder.com/300x300/2c3e50/ffffff?text=Copa",
     descripcion: "Modelo 3D de la Copa Mundial de la FIFA en escala detallada.",
     categoria: "futbol"
@@ -68,23 +68,24 @@ export const productos = [
     descripcion: "Sable láser azul de Luke Skywalker con luz LED opcional.",
     categoria: "starwars"
   },
-  {
-    id: "sable-vader",
-    nombre: "Sable Láser de Darth Vader",
-    precio: 74.99,
-    modelo: "../Models3d/StarWars/Pelota.glb",
-    imagen: "https://via.placeholder.com/300x300/c0392b/ffffff?text=Vader",
-    descripcion: "Sable láser rojo del Señor Oscuro Darth Vader.",
-    categoria: "starwars"
-  },
-  {
+   {
     id: "casco-stormtrooper",
     nombre: "Casco Stormtrooper",
     precio: 89.99,
-    modelo: "../Models3d/StarWars/Pelota.glb",
+    modelo: "../Models3d/StarWars/star_wars_stormtrooper_helmet.glb",
     imagen: "https://via.placeholder.com/300x300/95a5a6/ffffff?text=Stormtrooper",
     descripcion: "Réplica del icónico casco blanco del Stormtrooper del Imperio.",
     categoria: "starwars"
   },
+  {
+    id: "sable-vader",
+    nombre: "Sable Láser de Darth Vader",
+    precio: 74.99,
+    modelo: "../Models3d/StarWars/darth_vaders_lightsaber_star_wars.glb",
+    imagen: "https://via.placeholder.com/300x300/c0392b/ffffff?text=Vader",
+    descripcion: "Sable láser rojo del Señor Oscuro Darth Vader.",
+    categoria: "starwars"
+  },
+ 
 ];
 
