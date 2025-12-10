@@ -8,11 +8,11 @@ const gallery = document.getElementById('gallery');
 
 // Renderizar las tarjetas
 if (gallery) {
+    // 1. Generamos el HTML para todas las tarjetas, reemplazando <img> con <div>
     productos.forEach(p => {
-        // Mostrar todos los productos
         const card = `
             <div class="product-card" data-id="${p.id}">
-                <img src="${p.imagen}" alt="${p.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/300'">
+                <div id="preview-${p.id}" class="card-model-preview"></div>
                 <h3>${p.nombre}</h3>
                 <p class="precio">${p.precio.toFixed(2)} €</p>
                 <button class="btn-ver">Ver modelo 3D</button>
@@ -20,10 +20,15 @@ if (gallery) {
         `;
         gallery.insertAdjacentHTML('beforeend', card);
     });
+
+    // 2. Una vez que el HTML está en la página, cargamos los modelos en modo preview
+    productos.forEach(p => {
+        cargarModelo(`preview-${p.id}`, p.modelo, true);
+    });
 }
 
 // ==================== MODAL ====================
-// Crear el HTML del modal si no existe (o puedes tenerlo fijo en el HTML)
+// Crear el HTML del modal si no existe
 if (!document.getElementById('modal')) {
   document.body.insertAdjacentHTML('beforeend', `
     <div id="modal" class="modal">
@@ -52,7 +57,6 @@ const closeModal = document.querySelector('.close');
 // Abrir Modal al hacer click en una tarjeta
 if (gallery) {
     gallery.addEventListener('click', e => {
-        // Detectar si el click fue dentro de una tarjeta
         const card = e.target.closest('.product-card');
         if (!card) return;
 
@@ -64,15 +68,15 @@ if (gallery) {
             document.getElementById('modal-nombre').textContent = prod.nombre;
             document.getElementById('modal-precio').textContent = prod.precio.toFixed(2) + ' €';
             document.getElementById('modal-desc').textContent = prod.descripcion;
-          // Guardar producto actual para usar en el botón "Añadir al carrito"
-          window.currentProduct = prod;
+            window.currentProduct = prod;
             
             // Mostrar Modal
             modal.style.display = 'block';
 
-            // INICIAR EL VISOR 3D CENTRALIZADO
-            // Le pasamos el ID del div y la ruta del modelo
-            cargarModelo('visor3d', prod.modelo);
+            // Iniciar el visor 3D en modo completo (false)
+            requestAnimationFrame(() => {
+                cargarModelo('visor3d', prod.modelo, false);
+            });
         }
     });
 }
@@ -80,7 +84,6 @@ if (gallery) {
 // Cerrar Modal
 closeModal.addEventListener('click', () => {
     modal.style.display = 'none';
-    // Opcional: Podrías limpiar el contenedor 3D aquí si quisieras
     document.getElementById('visor3d').innerHTML = '';
 });
 

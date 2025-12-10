@@ -1,4 +1,8 @@
 // Módulo de carrito: gestión en localStorage y renderizado básico
+// --- IMPORTANTE: Importamos productos y el cargador de modelos ---
+import { productos } from './Productos.js';
+import { cargarModelo } from './threeViewer.js';
+
 const STORAGE_KEY = 'frikboys_cart_v1';
 
 export function getCart(){
@@ -29,9 +33,10 @@ export function addToCart(product){
   }else{
     cart.push({
       id: product.id,
-      nombre: product.nombre || product.name || 'Producto',
-      precio: Number(product.precio || product.price || 0),
-      imagen: product.imagen || product.image || '',
+      nombre: product.nombre || 'Producto',
+      precio: Number(product.precio || 0),
+      imagen: product.imagen || '',
+      modelo: product.modelo || '', // <-- CAMBIO 1: Guardamos la ruta del modelo
       qty: 1
     });
   }
@@ -60,7 +65,6 @@ export function getTotalPrice(){
 }
 
 export function updateCartBadge(){
-  // intenta encontrar el contador en el header
   const badge = document.querySelector('#cart-count');
   if(badge){
     badge.textContent = getTotalItems();
@@ -68,9 +72,10 @@ export function updateCartBadge(){
 }
 
 function createItemRow(item){
+  // CAMBIO 2: Reemplazamos <img> por un <div> con un ID único
   return `
     <div class="cart-item" data-id="${item.id}">
-      <img src="${item.imagen}" alt="${item.nombre}" onerror="this.src='https://via.placeholder.com/80'">
+      <div id="cart-model-${item.id}" class="cart-item-model"></div>
       <div class="cart-meta">
         <h4>${item.nombre}</h4>
         <p class="precio">${(item.precio||0).toFixed(2)} €</p>
@@ -101,8 +106,17 @@ export function renderCart(containerId){
       <button id="btn-checkout" class="btn-primary">Finalizar compra</button>
     </div>
   `;
+    
+  // CAMBIO 3: Después de crear el HTML, cargamos los modelos 3D
+  cart.forEach(item => {
+    if (item.modelo) {
+      // Usamos el ID único que creamos en createItemRow
+      cargarModelo(`cart-model-${item.id}`, item.modelo, true);
+    }
+  });
 
-  // Delegación de eventos
+
+  // Delegación de eventos (esto sigue igual)
   container.querySelectorAll('.btn-remove').forEach(btn => {
     btn.addEventListener('click', e =>{
       const row = e.target.closest('.cart-item');
@@ -134,6 +148,5 @@ export function renderCart(containerId){
 
 // Actualizar badge al cargar el módulo
 if(typeof window !== 'undefined'){
-  // Delay para esperar a que el header esté cargado si se inserta dinámicamente
   setTimeout(updateCartBadge, 300);
 }

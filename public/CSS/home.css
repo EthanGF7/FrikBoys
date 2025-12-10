@@ -264,6 +264,24 @@
 
 
 /* === MODIFICACIONES CLAVE PARA LAS TARJETAS (.card) === */
+/* --- Contenedor para el modelo 3D en el carrusel --- */
+.card-model-preview {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9; /* Mantenemos la proporción de las imágenes originales */
+  object-fit: cover;
+  background-color: #1a2233; /* Un color de fondo oscuro mientras carga */
+}
+
+/* El estilo para .card img ya no es necesario para el carrusel, pero
+   lo puedes dejar por si lo usas en otro sitio. */
+.card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
 .card {
   position: relative;
   border-radius: 12px;

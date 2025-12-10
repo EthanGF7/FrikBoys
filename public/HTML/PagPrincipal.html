@@ -76,28 +76,12 @@
       <button class="rail__btn left" aria-label="Anterior">‹</button>
       <button class="rail__btn right" aria-label="Siguiente">›</button>
       
+      <!-- =============================================================== -->
+      <!-- CAMBIO IMPORTANTE: El track ahora está vacío.                   -->
+      <!-- El script 'home_setup.js' se encargará de llenarlo.             -->
+      <!-- =============================================================== -->
       <div class="rail__track">
-        <article class="card">
-          <img src="../Models3D/Marvel/preview_corazon.jpg" alt="Corazón de Iron Man" />
-          <div class="card__meta">
-            <h3 class="card__title">Reactor Arc</h3>
-            <a class="card__link" href="PagMarvel.html">Ver detalles</a>
-          </div>
-        </article>
-        <article class="card">
-          <img src="https://via.placeholder.com/800x450/1e90ff/ffffff?text=Pelota+Fútbol" alt="Pelota de Fútbol" />
-          <div class="card__meta">
-            <h3 class="card__title">Pelota 3D</h3>
-            <a class="card__link" href="PagFutbol.html">Ver detalles</a>
-          </div>
-        </article>
-        <article class="card">
-          <img src="https://via.placeholder.com/800x450/2f3640/ffffff?text=Sable+Yoda" alt="Sable de Yoda" />
-          <div class="card__meta">
-            <h3 class="card__title">Sable láser</h3>
-            <a class="card__link" href="PagStarWars.html">Ver detalles</a>
-          </div>
-        </article>
+        <!-- Las tarjetas con modelos 3D se generarán aquí dinámicamente -->
       </div>
     </section>
 
@@ -139,11 +123,16 @@
         moverHero(1);
       }, 5000);
     </script>
-
+    
+    <!-- =============================================================== -->
+    <!-- CAMBIO IMPORTANTE: Orden de carga de los scripts del carrusel   -->
+    <!-- =============================================================== -->
+    
+    <!-- 1. Primero, cargamos como módulo el script que crea las tarjetas y los modelos 3D. -->
+    <script type="module" src="../JS/home_setup.js"></script>
+    
+    <!-- 2. Después, cargamos el script que controla la animación del carrusel. -->
     <script src="../JS/carousel.js"></script>
-</body>
-
-</html>
 </body>
 
 </html>

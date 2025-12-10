@@ -34,7 +34,7 @@ export const productos = [
     id: "pelota-futbol",
     nombre: "Pelota de Fútbol 3D",
     precio: 34.99,
-    modelo: "../Models3d/Futbol/Pelota.glb",
+    modelo: "../Models3d/Futbol/Pelota2.glb",
     imagen: "https://via.placeholder.com/300x300/27ae60/ffffff?text=Pelota",
     descripcion: "Modelo 3D de una pelota de fútbol con diseño clásico pentágonos.",
     categoria: "futbol"
