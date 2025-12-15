@@ -127,10 +127,24 @@
   border-radius: 12px;
   overflow: hidden;
   height: 120px;
-  background: #111a2a;
+  background-color: #111a2a;
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06), 0 10px 24px rgba(0, 0, 0, 0.45);
   transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
   text-decoration: none;
+}
+
+.brand-tile::before {
+  content: '';
+  position: absolute;
+  top:0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .brand-tile:hover {
@@ -147,30 +161,30 @@
 }
 
     /* Updated hover to show GIF on mouseover */
-    .category-button:hover {
-      transform: scale(1.05);
-      border-color: rgba(249, 249, 249, 0.8);
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-    }
+.brand-tile:hover {
+  transform: scale(1.05);
+  border-color: rgba(249, 249, 249, 0.8);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
 
-    .category-button:hover::before {
-      opacity: 1;
-    }
+.brand-tile:hover::before {
+  opacity: 1;
+}
 
 /* Fondos temáticos para cada tile */
-.brand-tile--futbol {
+.brand-tile--futbol::before {
   background-image: url("/public/Gif/uefa-champions-league.gif");
   background-size: cover;
   background-position: center;
 }
 
-.brand-tile--marvel {
+.brand-tile--marvel::before {
   background-image: url("/public/Gif/marvel-intro-marvel-theme.gif");
   background-size: cover;
   background-position: center;
 }
 
-.brand-tile--starwars {
+.brand-tile--starwars::before {
   background-image: url("/public/Gif/abell46s-reface.gif");
   background-size: cover;
   background-position: center;
