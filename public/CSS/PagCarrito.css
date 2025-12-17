@@ -151,3 +151,21 @@ main h1{
   .cart-item{ padding:10px; }
   .cart-item img{ width:72px; height:72px; }
 }
+
+/* Ensure the footer stays at the bottom of the viewport when content is short */
+html, body {
+  height: 100%;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1 0 auto; /* allow main to grow and push footer down */
+}
+
+footer.main-piepagina {
+  margin-top: auto; /* keep footer at the end of the page */
+}

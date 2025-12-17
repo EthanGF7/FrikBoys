@@ -15,9 +15,13 @@ if (gallery) {
         const card = `
             <div class="product-card" data-id="${p.id}">
                 <div id="preview-${p.id}" class="card-model-preview"></div>
-                <h3>${p.nombre}</h3>
-                <p class="precio">${p.precio.toFixed(2)} €</p>
-                <button class="btn-ver">Ver detalles</button>
+                <div class="card-info">
+                  <h3>${p.nombre}</h3>
+                  <p class="precio">${p.precio.toFixed(2)} €</p>
+                  <div class="card-actions">
+                    <button class="btn-ver">Ver detalles</button>
+                  </div>
+                </div>
             </div>
         `;
         gallery.insertAdjacentHTML('beforeend', card);
@@ -61,20 +65,23 @@ const closeModal = document.querySelector('.close');
 // Abrir Modal al hacer click en una tarjeta
 if (gallery) {
     gallery.addEventListener('click', e => {
-        // Detectar si el click fue dentro de una tarjeta
-        const card = e.target.closest('.product-card');
-        if (!card) return;
 
-        const id = card.dataset.id;
-        const prod = productos.find(p => p.id === id);
 
-        if (prod) {
+      // Detectar si el click fue dentro de una tarjeta
+      const card = e.target.closest('.product-card');
+      if (!card) return;
+
+      const id = card.dataset.id;
+      const prod = productos.find(p => p.id === id);
+
+      if (prod) {
             // Llenar datos
             document.getElementById('modal-nombre').textContent = prod.nombre;
             document.getElementById('modal-precio').textContent = prod.precio.toFixed(2) + ' €';
             document.getElementById('modal-desc').textContent = prod.descripcion;
-          // Guardar producto actual para usar en el botón "Añadir al carrito"
-          window.currentProduct = prod;
+            // Guardar producto actual para usar en el botón "Añadir al carrito"
+            window.currentProduct = prod;
+
             
             // Mostrar Modal
             modal.style.display = 'block';
@@ -119,4 +126,5 @@ if (btnCarrito) {
     const v = document.getElementById('visor3d');
     if (v) v.innerHTML = '';
   });
-}
+} 
+

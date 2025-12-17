@@ -46,7 +46,7 @@ main {
 }
 
 .product-card { 
-    width: 280px;
+    width: 320px;
     background: #1e1e1e; 
     color: #efefef;
     border-radius: 12px; 
@@ -56,6 +56,7 @@ main {
     text-align: center; 
     transition: transform .3s; 
     cursor: pointer; 
+    display:flex; flex-direction:column; align-items:center;
 }
 
 /* Asegura que el contenido interno (preview) pueda posicionarse correctamente */
@@ -72,6 +73,36 @@ main {
     height: 250px; 
     object-fit: cover; 
 }
+
+/* Caja de info que distingue del fondo */
+.card-info{
+    background: rgba(255,255,255,0.03);
+    padding: 16px;
+    margin-top: 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.45);
+    width: calc(100% - 28px);
+    text-align: center;
+}
+
+.product-card h3 { 
+    margin: 0 0 8px;
+    font-size: 1.8rem; 
+}
+
+.product-card .desc{ font-size: 1.15rem; color: #d6d6d6; margin: 6px 0; }
+
+.precio { 
+    font-weight: 800; 
+    color: #e74c3c; 
+    font-size: 1.6rem; 
+}
+
+.card-actions{ display:flex; gap:10px; justify-content:center; margin-top:12px; }
+.btn-add{ background:#e74c3c; color:#fff; border:none; padding:12px 18px; border-radius:999px; cursor:pointer; font-size:1.05rem; }
+.btn-add:hover{ filter: brightness(0.95); }
+.btn-carrito{ border-radius:999px; }
 
 /* Contenedor para previews 3D dentro de las tarjetas */
 .card-model-preview {
@@ -165,21 +196,51 @@ main {
 
 .info h2 { 
     margin-top: 0; 
+    font-size: 2.6rem;
+    font-weight: 700;
 }
 
+/* Modal add-to-cart button: match card style (red, rounded pill) and improved spacing */
 .btn-carrito { 
-    background: #27ae60; 
+    background: #e74c3c; 
     color: white; 
     border: none; 
-    padding: 15px 30px; 
-    font-size: 1.2rem; 
-    border-radius: 8px; 
-    cursor: pointer; 
-}
+    padding: 12px 28px; 
+    font-size: 1.15rem; 
+    border-radius: 999px; 
+    cursor: pointer;
+    display: block;
+    width: 90%;
+    margin: 18px auto 0;
+} 
 
 .btn-carrito:hover { 
-    background: #219653; 
+    background: #c0392b; 
 }
+
+/* Make modal info area vertically centered and emphasize price */
+.info { 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    background: rgba(255,255,255,0.04); /* lighter panel */
+    padding: 28px; 
+    border-radius: 10px; 
+    box-shadow: 0 6px 18px rgba(0,0,0,0.45); 
+}
+
+.info .precio { 
+    font-weight: 800; 
+    color: #e74c3c; 
+    font-size: 1.6rem; 
+    margin: 12px 0; 
+}
+
+.info p { 
+    color: #d6d6d6; 
+    font-size: 1rem; 
+    line-height: 1.6;
+} 
 
 /* --- Responsive --- */
 @media (max-width: 768px) { 
@@ -276,7 +337,8 @@ main {
     }
     
     .info h2 {
-        font-size: 1.8rem; /* Título un poco más pequeño */
+        font-size: 2.6rem;
+        font-weight: 700;
     }
     
     .info p {

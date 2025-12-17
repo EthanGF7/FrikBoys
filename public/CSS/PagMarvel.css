@@ -55,7 +55,7 @@ main {
 }
 
 .product-card { 
-    width: 280px;
+    width: 320px;
     background: #1e1e1e; 
     color: #efefef;
     border-radius: 12px; 
@@ -66,6 +66,7 @@ main {
     transition: transform .3s; 
     cursor: pointer; 
     position: relative; /* Importante para el posicionamiento */
+    display:flex; flex-direction:column; align-items:center;
 }
 
 .product-card:hover { 
@@ -79,16 +80,35 @@ main {
     object-fit: cover; 
 }
 
-.product-card h3 { 
-    margin: 1rem 0 0.5rem; 
-    font-size: 1.3rem; 
+/* Caja de info que distingue del fondo */
+.card-info{
+    background: rgba(255,255,255,0.03);
+    padding: 16px;
+    margin-top: 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.45);
+    width: calc(100% - 28px);
+    text-align: center;
 }
 
-.precio { 
-    font-weight: bold; 
-    color: #e74c3c; 
-    font-size: 1.4rem; 
+.product-card h3 { 
+    margin: 0 0 8px;
+    font-size: 1.8rem; 
 }
+
+.product-card .desc{ font-size: 1.15rem; color: #d6d6d6; margin: 6px 0; }
+
+.precio { 
+    font-weight: 800; 
+    color: #e74c3c; 
+    font-size: 1.6rem; 
+}
+
+.card-actions{ display:flex; gap:10px; justify-content:center; margin-top:12px; }
+.btn-add{ background:#e74c3c; color:#fff; border:none; padding:12px 18px; border-radius:999px; cursor:pointer; font-size:1.05rem; }
+.btn-add:hover{ filter: brightness(0.95); }
+.btn-carrito{ border-radius:999px; }
 
 .btn-ver { 
     background: #e74c3c; 
@@ -163,20 +183,49 @@ main {
 
 .info h2 { 
     margin-top: 0; 
+    font-size: 2.6rem;
+    font-weight: 700;
 }
+
+.info .precio { 
+    font-weight: 800; 
+    color: #e74c3c; 
+    font-size: 1.6rem; 
+    margin: 12px 0; 
+}
+
+.info p { 
+    color: #d6d6d6; 
+    font-size: 1rem; 
+    line-height: 1.6;
+}
+
+/* Slightly lighter panel for modal info so name and price stand out */
+.info { 
+    background: rgba(255,255,255,0.04);
+    padding: 28px; 
+    border-radius: 10px; 
+    box-shadow: 0 6px 18px rgba(0,0,0,0.45); 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}  
 
 .btn-carrito { 
-    background: #27ae60; 
+    background: #e74c3c; 
     color: white; 
     border: none; 
-    padding: 15px 30px; 
-    font-size: 1.2rem; 
-    border-radius: 8px; 
+    padding: 12px 28px; 
+    font-size: 1.15rem; 
+    border-radius: 999px; 
     cursor: pointer; 
-}
+    display: block;
+    width: 90%;
+    margin: 18px auto 0;
+} 
 
 .btn-carrito:hover { 
-    background: #219653; 
+    background: #c0392b; 
 }
 
 /* --- Responsive --- */
@@ -187,6 +236,9 @@ main {
     .visor3d { 
         height: 400px; 
     } 
+    .product-card h3 { font-size: 1.4rem; }
+    .product-card .precio { font-size: 1.2rem; }
+    .product-card .desc { font-size: 1rem; }
 }
 
 /* =========================================

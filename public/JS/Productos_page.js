@@ -13,9 +13,13 @@ if (gallery) {
         const card = `
             <div class="product-card" data-id="${p.id}">
                 <div id="preview-${p.id}" class="card-model-preview"></div>
-                <h3>${p.nombre}</h3>
-                <p class="precio">${p.precio.toFixed(2)} €</p>
-                <button class="btn-ver">Ver modelo 3D</button>
+                <div class="card-info">
+                  <h3>${p.nombre}</h3>
+                  <p class="precio">${p.precio.toFixed(2)} €</p>
+                  <div class="card-actions">
+                    <button class="btn-ver">Ver modelo 3D</button>
+                  </div>
+                </div>
             </div>
         `;
         gallery.insertAdjacentHTML('beforeend', card);
@@ -68,7 +72,9 @@ if (gallery) {
             document.getElementById('modal-nombre').textContent = prod.nombre;
             document.getElementById('modal-precio').textContent = prod.precio.toFixed(2) + ' €';
             document.getElementById('modal-desc').textContent = prod.descripcion;
+            // Guardar producto actual para usar en el botón "Añadir al carrito"
             window.currentProduct = prod;
+
             
             // Mostrar Modal
             modal.style.display = 'block';
@@ -102,3 +108,4 @@ document.getElementById('btn-carrito').addEventListener('click', () => {
   }
   modal.style.display = 'none';
 });
+
